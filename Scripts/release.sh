@@ -72,7 +72,11 @@ fi
 
 echo "==> Committing and tagging…"
 git add Resources/Info.plist
-git commit -m "Release $TAG"
+# The version may already be correct (e.g. after a dry run), and an empty commit
+# would abort the release.
+if ! git diff --cached --quiet; then
+  git commit -m "Release $TAG"
+fi
 git tag -a "$TAG" -m "ClipStack $VERSION"
 git push origin HEAD --tags
 
