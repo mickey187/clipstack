@@ -43,7 +43,7 @@ fi
 echo "==> Running tests…"
 ./Scripts/test.sh >/dev/null
 
-echo "==> Setting version to $VERSION…"
+echo "==> Setting version to ${VERSION}…"
 plutil -replace CFBundleShortVersionString -string "$VERSION" Resources/Info.plist
 plutil -replace CFBundleVersion -string "$VERSION" Resources/Info.plist
 
