@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ClipStack — clipboard history for macOS</title>
+<meta name="description" content="A small, free clipboard history for macOS. Lives in the menu bar, captures every copy, pastes it back with ⌥⌘V.">
+<meta property="og:title" content="ClipStack — clipboard history for macOS">
+<meta property="og:description" content="Lives in the menu bar, captures every copy, pastes it back with ⌥⌘V. Free and open source.">
+<meta property="og:type" content="website">
+<style>
+:root {
+  --bg: #fbfbfd;
+  --surface: #ffffff;
+  --border: #e3e3e8;
+  --text: #16161a;
+  --muted: #5f5f6b;
+  --accent: #2b6cec;
+  --accent-text: #ffffff;
+  --code-bg: #f2f2f6;
+  --warn-bg: #fff8e8;
+  --warn-border: #f0d089;
+  --shadow: 0 1px 3px rgba(0,0,0,.06), 0 12px 32px rgba(0,0,0,.08);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0e0e11;
+    --surface: #17171c;
+    --border: #2a2a33;
+    --text: #f2f2f5;
+    --muted: #a0a0ad;
+    --accent: #5b92f5;
+    --accent-text: #0b0b0e;
+    --code-bg: #1e1e25;
+    --warn-bg: #2a2313;
+    --warn-border: #5c4a1e;
+    --shadow: 0 1px 3px rgba(0,0,0,.4), 0 12px 32px rgba(0,0,0,.5);
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+h1, h2, h3 { line-height: 1.25; letter-spacing: -0.02em; }
+h2 { margin-top: 3rem; font-size: 1.45rem; }
+h3 { font-size: 1.05rem; margin-bottom: .4rem; }
+p { color: var(--muted); }
+a { color: var(--accent); }
+code, kbd {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: .88em;
+  background: var(--code-bg);
+  padding: .15em .4em;
+  border-radius: 4px;
+}
+pre {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  overflow-x: auto;
+}
+pre code { background: none; padding: 0; }
+
+/* Hero */
+header { text-align: center; padding: 72px 0 8px; }
+.mark {
+  width: 76px; height: 76px; margin: 0 auto 20px;
+  border-radius: 18px; background: var(--surface);
+  border: 1px solid var(--border); box-shadow: var(--shadow);
+  display: grid; place-items: center;
+}
+.mark svg { width: 42px; height: 42px; stroke: var(--accent); fill: none; stroke-width: 1.6; }
+header h1 { font-size: 2.6rem; margin: 0 0 .3rem; }
+.tagline { font-size: 1.15rem; margin: 0 auto 28px; max-width: 30rem; }
+.cta { display: inline-flex; align-items: center; gap: .5rem;
+  background: var(--accent); color: var(--accent-text);
+  text-decoration: none; font-weight: 600;
+  padding: 13px 26px; border-radius: 10px; }
+.cta:hover { filter: brightness(1.08); }
+.meta { margin-top: 12px; font-size: .85rem; color: var(--muted); }
+
+figure { margin: 48px 0 0; }
+figure img {
+  max-width: 100%; height: auto; display: block; margin: 0 auto;
+  border-radius: 12px; box-shadow: var(--shadow);
+}
+figcaption { text-align: center; font-size: .85rem; color: var(--muted); margin-top: 12px; }
+
+/* Steps */
+ol.steps { padding-left: 0; list-style: none; counter-reset: step; }
+ol.steps > li {
+  counter-increment: step; position: relative;
+  padding: 0 0 22px 46px; margin: 0;
+}
+ol.steps > li::before {
+  content: counter(step);
+  position: absolute; left: 0; top: 0;
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--accent); color: var(--accent-text);
+  display: grid; place-items: center;
+  font-size: .82rem; font-weight: 700;
+}
+ol.steps p { margin: .2rem 0 0; }
+
+.note {
+  background: var(--warn-bg); border: 1px solid var(--warn-border);
+  border-radius: 10px; padding: 16px 18px; margin: 20px 0;
+}
+.note p:last-child { margin-bottom: 0; }
+.note p:first-child { margin-top: 0; }
+
+table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--border); }
+th { font-size: .78rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+td:first-child { width: 9.5rem; white-space: nowrap; }
+.table-scroll { overflow-x: auto; }
+
+.features { display: grid; gap: 22px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin-top: 20px; }
+.features p { margin: 0; font-size: .94rem; }
+
+footer { margin: 72px 0 56px; padding-top: 28px; border-top: 1px solid var(--border);
+  text-align: center; font-size: .87rem; color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="mark">
+    <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <rect x="6" y="3" width="12" height="4" rx="1.4"/>
+      <path d="M8 5H5.8A1.8 1.8 0 0 0 4 6.8v13.4A1.8 1.8 0 0 0 5.8 22h8.4a1.8 1.8 0 0 0 1.8-1.8V19"/>
+      <rect x="10" y="9" width="10" height="8" rx="1.6"/>
+    </svg>
+  </div>
+  <h1>ClipStack</h1>
+  <p class="tagline">Clipboard history for macOS. Lives in the menu bar, captures every copy, and pastes it back where you were.</p>
+  <a class="cta" href="https://github.com/mickey187/clipstack/releases/latest">Download for macOS</a>
+  <p class="meta">Free and open source · Universal (Apple&nbsp;Silicon + Intel) · macOS&nbsp;14 or later</p>
+
+  <figure>
+    <img src="screenshot.png" alt="The ClipStack popup showing recent clipboard items, with one pinned at the top." onerror="this.closest('figure').remove()">
+    <figcaption>Press <kbd>⌥⌘V</kbd> anywhere. Arrow keys and <kbd>⏎</kbd>, or just click.</figcaption>
+  </figure>
+</header>
+
+<h2>What it does</h2>
+<div class="features">
+  <div>
+    <h3>Captures everything</h3>
+    <p>Text and images land in your history automatically. Nothing to press, nothing to configure.</p>
+  </div>
+  <div>
+    <h3>Pastes for you</h3>
+    <p>Pick an item and it goes straight into the app you were just in — not merely onto the clipboard.</p>
+  </div>
+  <div>
+    <h3>Pin what matters</h3>
+    <p>Pinned items sit at the top and are never pushed out, however much you copy.</p>
+  </div>
+  <div>
+    <h3>Stays out of the way</h3>
+    <p>No Dock icon, no windows, about 17&nbsp;MB of memory and no measurable CPU when idle.</p>
+  </div>
+  <div>
+    <h3>Skips your passwords</h3>
+    <p>Copies marked confidential by password managers are ignored on purpose, never stored.</p>
+  </div>
+  <div>
+    <h3>Remembers across restarts</h3>
+    <p>History is a plain JSON file on your own disk. It survives reboots and never leaves the machine.</p>
+  </div>
+</div>
+
+<h2>Installing it</h2>
+<ol class="steps">
+  <li>
+    <h3>Download and drag to Applications</h3>
+    <p>Open the DMG and drag ClipStack across, the usual way.</p>
+  </li>
+  <li>
+    <h3>Get past the first-launch warning</h3>
+    <p>macOS will say <em>“Apple could not verify ‘ClipStack’ is free of malware.”</em> Click <strong>Done</strong>, then open <strong>System&nbsp;Settings → Privacy&nbsp;&amp;&nbsp;Security</strong>, scroll to the bottom, and click <strong>Open&nbsp;Anyway</strong>.</p>
+  </li>
+  <li>
+    <h3>Allow Accessibility</h3>
+    <p>ClipStack asks once. It needs this only to press ⌘V on your behalf. Everything else — capturing copies, the popup, pinning — works without it.</p>
+  </li>
+</ol>
+
+<div class="note">
+  <p><strong>Why the warning?</strong> Apple only lets developers skip it by paying $99 a year for a Developer&nbsp;ID and notarizing each build. ClipStack is a free personal project, so it isn't notarized. The app is signed and its source is on GitHub — but macOS can't tell the difference, and shows the same warning it shows for anything unnotarized.</p>
+  <p>Prefer one command to clicking through settings? This does the same thing:</p>
+  <pre><code>xattr -dr com.apple.quarantine /Applications/ClipStack.app</code></pre>
+</div>
+
+<h2>Using it</h2>
+<div class="table-scroll">
+<table>
+  <thead><tr><th>Key</th><th>Does</th></tr></thead>
+  <tbody>
+    <tr><td><kbd>⌥⌘V</kbd></td><td>Open the popup at the pointer</td></tr>
+    <tr><td><kbd>↑</kbd> <kbd>↓</kbd></td><td>Move the selection</td></tr>
+    <tr><td><kbd>⏎</kbd></td><td>Paste the selected item</td></tr>
+    <tr><td><kbd>⌘1</kbd>–<kbd>⌘9</kbd></td><td>Paste the nth item directly</td></tr>
+    <tr><td><kbd>⌫</kbd></td><td>Delete the selected item</td></tr>
+    <tr><td><kbd>⎋</kbd></td><td>Dismiss</td></tr>
+  </tbody>
+</table>
+</div>
+<p>Hover any row and click <strong>⋯</strong> to pin or delete it. Right-click the menu bar icon for Clear History and Quit.</p>
+
+<h2>Privacy</h2>
+<p>Your clipboard history is a JSON file in <code>~/Library/Application&nbsp;Support/ClipStack/</code>, on your disk and nowhere else. There is no account, no sync, no analytics, and no telemetry.</p>
+<p>The one network request ClipStack ever makes is a version check against the GitHub releases API, at most once a day, to tell you when a new version exists. It sends nothing about you and never downloads anything on its own. Copies that password managers mark as confidential are dropped before they reach the history.</p>
+
+<h2>Building it yourself</h2>
+<p>It's a Swift package — no Xcode project, and Command Line Tools are enough.</p>
+<pre><code>git clone https://github.com/mickey187/clipstack.git
+cd clipstack
+./Scripts/create-signing-cert.sh   # once
+./Scripts/build-app.sh</code></pre>
+
+<footer>
+  <p><a href="https://github.com/mickey187/clipstack">Source on GitHub</a> · MIT licensed</p>
+</footer>
+
+</div>
+</body>
+</html>
