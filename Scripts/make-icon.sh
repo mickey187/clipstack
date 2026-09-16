@@ -23,6 +23,16 @@ if (( WIDTH < 1024 )); then
   echo "⚠️  $SOURCE is only ${WIDTH}px wide; 1024 is recommended." >&2
 fi
 
+# Artwork exported from most image tools is opaque, and an .icns built from that
+# paints a white box behind the icon everywhere macOS draws it. Reshape first.
+HAS_ALPHA=$(sips -g hasAlpha "$SOURCE" | awk '/hasAlpha/{print $2}')
+if [[ "$HAS_ALPHA" != "yes" ]]; then
+  echo "==> Source has no transparency — masking to a rounded icon shape…"
+  ROUNDED="$(mktemp -d)/rounded.png"
+  swift Scripts/round-icon.swift "$SOURCE" "$ROUNDED"
+  SOURCE="$ROUNDED"
+fi
+
 ICONSET="$(mktemp -d)/AppIcon.iconset"
 mkdir -p "$ICONSET"
 trap 'rm -rf "$(dirname "$ICONSET")"' EXIT
