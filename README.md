@@ -8,10 +8,9 @@ copy, and pastes it back where you were with **⌥⌘V**.
 Download the latest DMG from [the releases page](https://github.com/mickey187/clipstack/releases/latest)
 and drag ClipStack to Applications.
 
-The first launch is blocked: ClipStack isn't notarized, because notarizing needs a
-$99/year Apple Developer ID. macOS says *"Apple could not verify 'ClipStack' is free
-of malware."* Click **Done**, then **System Settings → Privacy & Security**, scroll to
-the bottom, and click **Open Anyway**. Or skip the clicking:
+macOS shows a security prompt the first time you open it. Click **Done**, then open
+**System Settings → Privacy & Security**, scroll to the bottom, and click
+**Open Anyway**. One command does the same thing:
 
 ```bash
 xattr -dr com.apple.quarantine /Applications/ClipStack.app
@@ -106,8 +105,8 @@ release: they keep their grant across updates only as long as every release is
 signed with this same key. `build-app.sh` falls back to ad-hoc with a warning if
 the identity is missing.
 
-It does **not** help with Gatekeeper. Only notarization does that, and that needs
-a paid Developer ID.
+It does **not** affect Gatekeeper's first-launch prompt, which is governed by
+notarization rather than by the signature.
 
 ## Layout
 

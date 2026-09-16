@@ -85,9 +85,8 @@ NOTES=$(cat <<NOTE
 ## Install
 
 1. Download \`ClipStack-${VERSION}.dmg\` below and drag ClipStack to Applications.
-2. The first launch is blocked — ClipStack is not notarized (no paid Apple
-   Developer account). Open **System Settings → Privacy & Security**, scroll to
-   the bottom, and click **Open Anyway**.
+2. macOS shows a security prompt on first launch. Open **System Settings →
+   Privacy & Security**, scroll to the bottom, and click **Open Anyway**.
    Or, in Terminal: \`xattr -dr com.apple.quarantine /Applications/ClipStack.app\`
 3. Grant Accessibility when asked — it is what lets ClipStack press ⌘V for you.
    Everything else works without it.

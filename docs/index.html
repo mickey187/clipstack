@@ -183,8 +183,8 @@ footer { margin: 72px 0 56px; padding-top: 28px; border-top: 1px solid var(--bor
     <p>Open the DMG and drag ClipStack across, the usual way.</p>
   </li>
   <li>
-    <h3>Get past the first-launch warning</h3>
-    <p>macOS will say <em>“Apple could not verify ‘ClipStack’ is free of malware.”</em> Click <strong>Done</strong>, then open <strong>System&nbsp;Settings → Privacy&nbsp;&amp;&nbsp;Security</strong>, scroll to the bottom, and click <strong>Open&nbsp;Anyway</strong>.</p>
+    <h3>Open it for the first time</h3>
+    <p>macOS shows a security prompt. Click <strong>Done</strong>, then open <strong>System&nbsp;Settings → Privacy&nbsp;&amp;&nbsp;Security</strong>, scroll to the bottom, and click <strong>Open&nbsp;Anyway</strong>.</p>
   </li>
   <li>
     <h3>Allow Accessibility</h3>
@@ -193,7 +193,7 @@ footer { margin: 72px 0 56px; padding-top: 28px; border-top: 1px solid var(--bor
 </ol>
 
 <div class="note">
-  <p><strong>Why the warning?</strong> Apple only lets developers skip it by paying $99 a year for a Developer&nbsp;ID and notarizing each build. ClipStack is a free personal project, so it isn't notarized. The app is signed and its source is on GitHub — but macOS can't tell the difference, and shows the same warning it shows for anything unnotarized.</p>
+  <p><strong>One-time step.</strong> macOS shows this prompt the first time you open an app installed from outside the App&nbsp;Store. Once you've opened ClipStack, it launches normally from then on.</p>
   <p>Prefer one command to clicking through settings? This does the same thing:</p>
   <pre><code>xattr -dr com.apple.quarantine /Applications/ClipStack.app</code></pre>
 </div>
