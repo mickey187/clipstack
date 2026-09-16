@@ -8,6 +8,9 @@
 <meta property="og:title" content="ClipStack — clipboard history for macOS">
 <meta property="og:description" content="Lives in the menu bar, captures every copy, pastes it back with ⌥⌘V. Free and open source.">
 <meta property="og:type" content="website">
+<meta property="og:image" content="https://mickey187.github.io/clipstack/icon.png">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <style>
 :root {
   --bg: #fbfbfd;
@@ -70,12 +73,9 @@ pre code { background: none; padding: 0; }
 /* Hero */
 header { text-align: center; padding: 72px 0 8px; }
 .mark {
-  width: 76px; height: 76px; margin: 0 auto 20px;
-  border-radius: 18px; background: var(--surface);
-  border: 1px solid var(--border); box-shadow: var(--shadow);
-  display: grid; place-items: center;
+  width: 104px; height: 104px; margin: 0 auto 18px; display: block;
+  filter: drop-shadow(0 4px 10px rgba(0,0,0,.2));
 }
-.mark svg { width: 42px; height: 42px; stroke: var(--accent); fill: none; stroke-width: 1.6; }
 header h1 { font-size: 2.6rem; margin: 0 0 .3rem; }
 .tagline { font-size: 1.15rem; margin: 0 auto 28px; max-width: 30rem; }
 .cta { display: inline-flex; align-items: center; gap: .5rem;
@@ -136,13 +136,7 @@ footer { margin: 72px 0 56px; padding-top: 28px; border-top: 1px solid var(--bor
 <div class="wrap">
 
 <header>
-  <div class="mark">
-    <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <rect x="6" y="3" width="12" height="4" rx="1.4"/>
-      <path d="M8 5H5.8A1.8 1.8 0 0 0 4 6.8v13.4A1.8 1.8 0 0 0 5.8 22h8.4a1.8 1.8 0 0 0 1.8-1.8V19"/>
-      <rect x="10" y="9" width="10" height="8" rx="1.6"/>
-    </svg>
-  </div>
+  <img class="mark" src="icon.png" width="128" height="128" alt="" fetchpriority="high">
   <h1>ClipStack</h1>
   <p class="tagline">Clipboard history for macOS. Lives in the menu bar, captures every copy, and pastes it back where you were.</p>
   <a class="cta" href="https://github.com/mickey187/clipstack/releases/latest">Download for macOS</a>
