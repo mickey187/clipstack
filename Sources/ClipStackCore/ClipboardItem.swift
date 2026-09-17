@@ -89,4 +89,36 @@ public struct ClipboardItem: Codable, Identifiable, Equatable, Sendable {
             return "Image"
         }
     }
+
+    /// Whether the whole entry is a single URL.
+    ///
+    /// Deliberately "is a link" rather than "contains a link": people copy URLs
+    /// on their own, and substring matching would file half of all prose under
+    /// Links.
+    public var isLink: Bool {
+        guard type == .text, let value = textValue else { return false }
+        let trimmed = value.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty,
+              trimmed.rangeOfCharacter(from: .whitespacesAndNewlines) == nil
+        else { return false }
+
+        if trimmed.lowercased().hasPrefix("www.") { return true }
+        guard let url = URL(string: trimmed),
+              let scheme = url.scheme?.lowercased(),
+              scheme == "http" || scheme == "https",
+              let host = url.host, !host.isEmpty
+        else { return false }
+        return true
+    }
+
+    /// Whether this entry should survive a search for `query`.
+    ///
+    /// Images match only the empty query: matching them on `previewText` would
+    /// surface every screenshot in the history for the query "image".
+    public func matches(query: String) -> Bool {
+        let trimmed = query.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else { return true }
+        guard let value = textValue else { return false }
+        return value.localizedStandardContains(trimmed)
+    }
 }

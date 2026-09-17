@@ -1,7 +1,8 @@
 import os
 
-/// Diagnostics for the paste path, which is the part that fails silently and
-/// invisibly when a permission or a focus hand-off goes wrong.
+/// Diagnostics for the paths that fail silently and invisibly — pasting, when a
+/// permission or a focus hand-off goes wrong, and login-item registration, which
+/// the system can refuse without telling anyone.
 ///
 /// Watch it live with:
 ///     log stream --predicate 'subsystem == "com.mickey.clipstack"'
@@ -10,3 +11,4 @@ import os
 ///
 /// Deliberately never logs clipboard contents — only state and key codes.
 let pasteLog = Logger(subsystem: "com.mickey.clipstack", category: "paste")
+let loginLog = Logger(subsystem: "com.mickey.clipstack", category: "login")

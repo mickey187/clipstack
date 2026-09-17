@@ -31,7 +31,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         statusBar = StatusBarController(
             store: store,
             updates: updates,
-            onOpen: { [weak self] in self?.popup.toggle() }
+            onOpen: { [weak self] in self?.popup.toggle() },
+            panelSize: { [weak self] in self?.popup.currentPanelSize ?? .default },
+            onPanelSize: { [weak self] size in self?.popup.setPanelSize(size) }
         )
 
         monitor = ClipboardMonitor(store: store)

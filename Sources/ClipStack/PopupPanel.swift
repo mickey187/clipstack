@@ -11,24 +11,82 @@ final class PopupModel {
     var selectedID: UUID?
     var hasAccessibility: Bool = true
 
+    /// Drives both the panel frame and the type scale inside it. Owned by the
+    /// model so the SwiftUI tree redraws at the new scale the moment it changes.
+    var panelSize: PanelSize = .default
+
+    /// Search and category are view state, cleared on every open, so ⌥⌘V always
+    /// lands on the whole history rather than on whatever you filtered to last.
+    var searchQuery: String = ""
+    var category: ItemCategory = .all
+
     var onPaste: (ClipboardItem) -> Void = { _ in }
     var onDismiss: () -> Void = {}
 
-    init(store: ClipboardStore) {
+    init(store: ClipboardStore, panelSize: PanelSize) {
         self.store = store
+        self.panelSize = panelSize
+    }
+
+    var isFiltering: Bool { !searchQuery.isEmpty || category != .all }
+
+    /// Everything the current filter allows through, newest first.
+    var visibleItems: [ClipboardItem] {
+        store.items.filtered(category: category, query: searchQuery)
     }
 
     /// Pinned first, then the rest in recency order. This is the order the list
-    /// renders and the order the keyboard navigates.
+    /// renders and the order the keyboard navigates — so rooting it on
+    /// `visibleItems` is what makes ↑/↓, ⏎ and ⌘1–9 follow the filter.
     var orderedItems: [ClipboardItem] {
-        store.items.filter(\.isPinned) + store.items.filter { !$0.isPinned }
+        let visible = visibleItems
+        return visible.filter(\.isPinned) + visible.filter { !$0.isPinned }
     }
 
-    var pinnedItems: [ClipboardItem] { store.items.filter(\.isPinned) }
-    var recentItems: [ClipboardItem] { store.items.filter { !$0.isPinned } }
+    var pinnedItems: [ClipboardItem] { visibleItems.filter(\.isPinned) }
+    var recentItems: [ClipboardItem] { visibleItems.filter { !$0.isPinned } }
 
     func resetSelection() {
         selectedID = orderedItems.first?.id
+    }
+
+    // MARK: - Filtering
+
+    func appendToQuery(_ characters: String) {
+        searchQuery += characters
+        repairSelection()
+    }
+
+    func deleteLastQueryCharacter() {
+        guard !searchQuery.isEmpty else { return }
+        searchQuery.removeLast()
+        repairSelection()
+    }
+
+    func clearFilters() {
+        searchQuery = ""
+        category = .all
+        repairSelection()
+    }
+
+    func select(category: ItemCategory) {
+        self.category = category
+        repairSelection()
+    }
+
+    func cycleCategory(by offset: Int) {
+        let all = ItemCategory.allCases
+        guard let index = all.firstIndex(of: category) else { return }
+        category = all[((index + offset) % all.count + all.count) % all.count]
+        repairSelection()
+    }
+
+    /// Keeps the selection on something still on screen after a filter change,
+    /// so ⏎ can never paste a row the list is no longer showing.
+    private func repairSelection() {
+        let items = orderedItems
+        if let selectedID, items.contains(where: { $0.id == selectedID }) { return }
+        selectedID = items.first?.id
     }
 
     func moveSelection(by offset: Int) {
@@ -88,14 +146,57 @@ final class PopupPanel: NSPanel {
             return
         }
 
+        // ⌘⌫ stays a delete even while a search is being typed, since bare ⌫
+        // belongs to the query at that point.
+        if event.modifierFlags.contains(.command), Int(event.keyCode) == 51 {
+            MainActor.assumeIsolated { model.deleteSelected() }
+            return
+        }
+
         switch Int(event.keyCode) {
         case 125: MainActor.assumeIsolated { model.moveSelection(by: 1) }
         case 126: MainActor.assumeIsolated { model.moveSelection(by: -1) }
         case 36, 76: MainActor.assumeIsolated { model.pasteSelected() }
-        case 53: onDismiss?()
-        case 51, 117: MainActor.assumeIsolated { model.deleteSelected() }
-        default: super.keyDown(with: event)
+        case 48: // ⇥ / ⇧⇥ walks the category chips.
+            let back = event.modifierFlags.contains(.shift)
+            MainActor.assumeIsolated { model.cycleCategory(by: back ? -1 : 1) }
+        case 53:
+            // Two-stage: ⎋ undoes the filter first, so it never closes the popup
+            // out from under a search.
+            if MainActor.assumeIsolated({ model.isFiltering }) {
+                MainActor.assumeIsolated { model.clearFilters() }
+            } else {
+                onDismiss?()
+            }
+        case 51:
+            MainActor.assumeIsolated {
+                if model.searchQuery.isEmpty {
+                    model.deleteSelected()
+                } else {
+                    model.deleteLastQueryCharacter()
+                }
+            }
+        case 117: MainActor.assumeIsolated { model.deleteSelected() }
+        default:
+            if let typed = Self.typedCharacters(in: event) {
+                MainActor.assumeIsolated { model.appendToQuery(typed) }
+            } else {
+                super.keyDown(with: event)
+            }
         }
+    }
+
+    /// The printable text of an unmodified keystroke — the type-to-search input.
+    ///
+    /// Anything carrying ⌘/⌃/⌥ or coming off the function-key row is a command,
+    /// not typing, and is handed back to AppKit.
+    private static func typedCharacters(in event: NSEvent) -> String? {
+        let ignored: NSEvent.ModifierFlags = [.command, .control, .option, .function]
+        guard event.modifierFlags.isDisjoint(with: ignored) else { return nil }
+        guard let characters = event.characters, !characters.isEmpty else { return nil }
+        guard characters.unicodeScalars.allSatisfy({ !CharacterSet.controlCharacters.contains($0) })
+        else { return nil }
+        return characters
     }
 }
 
@@ -108,11 +209,13 @@ final class PopupPanelController: NSObject, NSWindowDelegate {
     /// The app to paste back into, captured before we steal focus.
     private var targetApp: NSRunningApplication?
 
-    private static let panelSize = NSSize(width: 340, height: 440)
+    private var panelSize: NSSize {
+        NSSize(width: model.panelSize.width, height: model.panelSize.height)
+    }
 
     init(store: ClipboardStore) {
         self.store = store
-        self.model = PopupModel(store: store)
+        self.model = PopupModel(store: store, panelSize: Preferences.panelSize)
         super.init()
 
         model.onPaste = { [weak self] item in self?.paste(item) }
@@ -123,7 +226,7 @@ final class PopupPanelController: NSObject, NSWindowDelegate {
 
     private func buildPanel() {
         let panel = PopupPanel(
-            contentRect: NSRect(origin: .zero, size: Self.panelSize),
+            contentRect: NSRect(origin: .zero, size: panelSize),
             styleMask: [.nonactivatingPanel, .fullSizeContentView],
             backing: .buffered,
             defer: false
@@ -141,7 +244,7 @@ final class PopupPanelController: NSObject, NSWindowDelegate {
         panel.model = model
         panel.onDismiss = { [weak self] in self?.hide() }
 
-        let effect = NSVisualEffectView(frame: NSRect(origin: .zero, size: Self.panelSize))
+        let effect = NSVisualEffectView(frame: NSRect(origin: .zero, size: panelSize))
         effect.material = .popover
         effect.blendingMode = .behindWindow
         effect.state = .active
@@ -160,6 +263,24 @@ final class PopupPanelController: NSObject, NSWindowDelegate {
         self.panel = panel
     }
 
+    // MARK: - Size
+
+    /// Applies a new size step and remembers it. Resizes in place when the panel
+    /// is already open, so the choice is visible immediately rather than at the
+    /// next ⌥⌘V.
+    func setPanelSize(_ size: PanelSize) {
+        guard size != model.panelSize else { return }
+        model.panelSize = size
+        Preferences.panelSize = size
+
+        panel.setContentSize(panelSize)
+        if panel.isVisible {
+            panel.setFrameOrigin(originNearCursor())
+        }
+    }
+
+    var currentPanelSize: PanelSize { model.panelSize }
+
     // MARK: - Show / hide
 
     func toggle() {
@@ -174,8 +295,10 @@ final class PopupPanelController: NSObject, NSWindowDelegate {
         }
 
         model.hasAccessibility = Permissions.hasAccessibility
+        model.clearFilters()
         model.resetSelection()
 
+        panel.setContentSize(panelSize)
         panel.setFrameOrigin(originNearCursor())
         NSApp.activate()
         panel.makeKeyAndOrderFront(nil)
@@ -190,7 +313,7 @@ final class PopupPanelController: NSObject, NSWindowDelegate {
         let mouse = NSEvent.mouseLocation
         let screen = NSScreen.screens.first { $0.frame.contains(mouse) } ?? NSScreen.main
         let visible = screen?.visibleFrame ?? NSRect(x: 0, y: 0, width: 1440, height: 900)
-        let size = Self.panelSize
+        let size = panelSize
         let inset: CGFloat = 8
 
         var x = mouse.x + 12

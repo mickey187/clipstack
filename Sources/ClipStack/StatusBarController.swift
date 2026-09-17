@@ -11,12 +11,22 @@ final class StatusBarController: NSObject, NSMenuDelegate {
     private let store: ClipboardStore
     private let updates: UpdateChecker
     private let onOpen: () -> Void
+    private let panelSize: () -> PanelSize
+    private let onPanelSize: (PanelSize) -> Void
     private let menu = NSMenu()
 
-    init(store: ClipboardStore, updates: UpdateChecker, onOpen: @escaping () -> Void) {
+    init(
+        store: ClipboardStore,
+        updates: UpdateChecker,
+        onOpen: @escaping () -> Void,
+        panelSize: @escaping () -> PanelSize,
+        onPanelSize: @escaping (PanelSize) -> Void
+    ) {
         self.store = store
         self.updates = updates
         self.onOpen = onOpen
+        self.panelSize = panelSize
+        self.onPanelSize = onPanelSize
         self.statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         super.init()
 
@@ -86,6 +96,29 @@ final class StatusBarController: NSObject, NSMenuDelegate {
             menu.addItem(warn)
         }
 
+        menu.addItem(sizeMenuItem())
+
+        if LoginItem.isSupported {
+            let launch = NSMenuItem(
+                title: "Start at Login",
+                action: #selector(toggleLoginItem),
+                keyEquivalent: ""
+            )
+            launch.target = self
+            launch.state = LoginItem.isEnabled ? .on : .off
+            menu.addItem(launch)
+
+            if LoginItem.needsApproval {
+                let approve = NSMenuItem(
+                    title: "Approve ClipStack in Login Items…",
+                    action: #selector(openLoginItemsSettings),
+                    keyEquivalent: ""
+                )
+                approve.target = self
+                menu.addItem(approve)
+            }
+        }
+
         menu.addItem(.separator())
 
         let clear = NSMenuItem(title: "Clear History", action: #selector(clearHistory), keyEquivalent: "")
@@ -106,10 +139,41 @@ final class StatusBarController: NSObject, NSMenuDelegate {
         menu.addItem(quit)
     }
 
+    /// Panel size as a submenu: three fixed steps, the current one checked.
+    private func sizeMenuItem() -> NSMenuItem {
+        let current = panelSize()
+        let submenu = NSMenu()
+        for size in PanelSize.allCases {
+            let item = NSMenuItem(title: size.title, action: #selector(selectPanelSize(_:)), keyEquivalent: "")
+            item.target = self
+            item.representedObject = size.rawValue
+            item.state = size == current ? .on : .off
+            submenu.addItem(item)
+        }
+
+        let item = NSMenuItem(title: "Panel Size", action: nil, keyEquivalent: "")
+        item.submenu = submenu
+        return item
+    }
+
     @objc private func openPopup() { onOpen() }
+
+    @objc private func selectPanelSize(_ sender: NSMenuItem) {
+        guard let raw = sender.representedObject as? String,
+              let size = PanelSize(rawValue: raw) else { return }
+        onPanelSize(size)
+    }
 
     @objc private func openAccessibilitySettings() {
         Permissions.openAccessibilitySettings()
+    }
+
+    @objc private func toggleLoginItem() {
+        LoginItem.setEnabled(!LoginItem.isEnabled)
+    }
+
+    @objc private func openLoginItemsSettings() {
+        LoginItem.openLoginItemsSettings()
     }
 
     @objc private func clearHistory() {

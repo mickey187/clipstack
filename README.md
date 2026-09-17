@@ -55,15 +55,19 @@ Then grant permission: **System Settings → Privacy & Security → Accessibilit
 | | |
 |---|---|
 | **⌥⌘V** | Open the popup at the pointer |
+| Just type | Search the history — the list narrows as you go |
+| **⇥ / ⇧⇥** | Cycle the category: All, Text, Images, Links |
 | **↑ / ↓** | Move the selection |
 | **⏎** | Paste the selected item |
 | **⌘1**–**⌘9** | Paste the nth item directly |
-| **⌫** | Delete the selected item |
-| **⎋** | Dismiss |
-| Right-click the menu bar icon | Clear History, Quit |
+| **⌫** | Delete the selected item, or erase the search while you have one |
+| **⌘⌫** | Delete the selected item even mid-search |
+| **⎋** | Clear the search and category, then dismiss |
+| Right-click the menu bar icon | Panel Size, Start at Login, Clear History, Quit |
 | Hover a row → **⋯** | Pin / Unpin / Delete |
 
-Pinned items are lifted to their own section and are never evicted.
+Pinned items are lifted to their own section and are never evicted. Search and
+category reset every time the popup opens, so **⌥⌘V** always shows you everything.
 
 ## How it works
 
@@ -78,6 +82,18 @@ Pinned items are lifted to their own section and are never evicted.
   frontmost app *before* showing, reactivates it afterwards, waits until it really
   is frontmost, and only then synthesises ⌘V. Posting the keystroke too early is
   the classic way this breaks.
+- **Finding things** — typing goes straight into the query because the panel, not a
+  text field, owns key handling; that is what keeps ↑/↓, ⏎ and ⌘1–9 working while
+  you search. Filtering lives in `ClipStackCore` so it can be unit tested. **Links**
+  means the whole entry is a URL, not merely that it contains one — otherwise half
+  of all prose lands there. Text items include links, since a URL is still text.
+- **Panel size** — Small, Medium (the default) or Large, from the menu bar. One
+  multiplier scales the panel frame and every point size inside it together;
+  growing the window alone would only show more rows at the same squint. Small is
+  the 340×440 panel as it shipped before the setting existed.
+- **Starting at login** — `SMAppService.mainApp`, so there is no LaunchAgent to ship.
+  The menu item reads its checkmark back from the system every time it opens, because
+  the registration can be switched off in System Settings without telling the app.
 - **Privacy** — copies marked `org.nspasteboard.ConcealedType` (and the related
   transient/auto-generated types, and 1Password's own) are skipped, so passwords
   from a password manager never enter the history.
@@ -118,5 +134,4 @@ Tests/                   swift-testing (CLT ships no XCTest; see Scripts/test.sh
 
 ## Not in v1
 
-File/folder copies, search, configurable history size and hotkey, launch at login,
-sync.
+File/folder copies, configurable history size and hotkey, sync.
