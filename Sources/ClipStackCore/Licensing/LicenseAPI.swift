@@ -11,7 +11,7 @@ public typealias LicenseTransport = @Sendable (URLRequest) async -> (Data, Int)?
 public struct LicenseAPI: Sendable {
     public static let base = URL(string: "https://api.lemonsqueezy.com/v1/licenses")!
 
-    private let product: ProductIdentity
+    public let product: ProductIdentity
     private let transport: LicenseTransport
 
     public init(product: ProductIdentity, transport: @escaping LicenseTransport) {

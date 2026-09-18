@@ -365,3 +365,39 @@ private extension Result where Success == Void, Failure == ActivationError {
     var isFailure: Bool { !isSuccess }
     var error: ActivationError? { if case .failure(let error) = self { error } else { nil } }
 }
+
+// MARK: - The unsellable-build interlock
+
+@Test @MainActor
+func aBuildWithNoProductConfiguredNeverEnforcesATrial() {
+    // ProductIdentity.clipStack ships as placeholder zeros until the Lemon Squeezy
+    // product exists. Enforcing a trial in that state would strand every user: the
+    // countdown runs out and activate() refuses before it even reaches the network.
+    let secrets = FakeSecrets()
+    let manager = LicenseManager(
+        secrets: secrets,
+        api: LicenseAPI(product: .clipStack, transport: { _ in nil }),
+        instanceName: "ClipStack — Test Mac",
+        now: { start.addingTimeInterval(400 * day) }
+    )
+    manager.start()
+
+    #expect(manager.isSellable == false)
+    #expect(manager.entitlement == .licensed)
+    #expect(manager.entitlement.capturesClipboard)
+    // And it leaves no trial record behind to expire the moment a real build lands.
+    #expect(!secrets.hasTrial)
+}
+
+@Test @MainActor
+func anUnsellableBuildShowsNoLicensingUI() {
+    let manager = LicenseManager(
+        secrets: FakeSecrets(),
+        api: LicenseAPI(product: .clipStack, transport: { _ in nil }),
+        instanceName: "ClipStack — Test Mac",
+        now: { start }
+    )
+    manager.start()
+    #expect(manager.entitlement.menuTitle == nil)
+    #expect(manager.entitlement.bannerMessage == nil)
+}

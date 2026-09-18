@@ -1,5 +1,5 @@
 {
-  "tag_name": "1.0.0",
+  "tag_name": "1.0.1",
   "url": "https://tryclipstack.com/#download",
   "published_at": "2026-09-18T00:00:00Z",
   "notes": "Bump tag_name when you ship. The app compares it against its own CFBundleShortVersionString using SemanticVersion, and shows a menu item only when this is strictly newer. It never downloads anything by itself."

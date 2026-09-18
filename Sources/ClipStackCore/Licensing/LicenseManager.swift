@@ -52,9 +52,22 @@ public final class LicenseManager {
 
     // MARK: - Lifecycle
 
+    /// True when this build has no Lemon Squeezy product behind it, and therefore no
+    /// way for anyone to buy or activate.
+    ///
+    /// Enforcing a trial in that state would strand every user: the countdown runs,
+    /// capture stops, and `activate` refuses before it even reaches the network. So an
+    /// unconfigured build does not enforce anything — it behaves exactly like the free
+    /// app it effectively is, and writes no trial record to reset later.
+    public var isSellable: Bool { api.product.isConfigured }
+
     /// Loads both records, starts the trial if this is genuinely a first launch, and
     /// computes the initial entitlement.
     public func start() {
+        guard isSellable else {
+            entitlement = .licensed
+            return
+        }
         loadLicense()
         loadTrial()
         observeClock(persist: true)
@@ -63,7 +76,7 @@ public final class LicenseManager {
 
     /// Moves the trial's high water mark forward. Cheap; call it freely.
     public func observeClock(persist: Bool = false) {
-        guard !storageUnavailable, var trial else { return }
+        guard isSellable, !storageUnavailable, var trial else { return }
         let moved = trial.observe(now: now())
         self.trial = trial
         defaults?.saveTrialMirror(trial)
@@ -122,7 +135,7 @@ public final class LicenseManager {
 
     /// Sync entry point, mirroring `UpdateChecker.checkIfDue()`. Safe on every launch.
     public func revalidateIfDue() {
-        guard license != nil else { return }
+        guard isSellable, license != nil else { return }
         if let last = defaults?.lastLicenseCheck(),
            now().timeIntervalSince(last) < EntitlementPolicy.revalidationInterval {
             return
@@ -235,6 +248,7 @@ public final class LicenseManager {
     }
 
     private func recompute() {
+        guard isSellable else { entitlement = .licensed; return }
         entitlement = EntitlementPolicy.evaluate(trial: trial, license: license, now: now())
     }
 }

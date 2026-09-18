@@ -46,9 +46,9 @@
       "applicationSubCategory": "Clipboard Manager",
       "operatingSystem": "macOS 14.0 or later",
       "processorRequirements": "Apple Silicon or Intel (universal binary)",
-      "softwareVersion": "1.0.0",
-      "fileSize": "2.1MB",
-      "downloadUrl": "https://tryclipstack.com/",
+      "softwareVersion": "1.0.1",
+      "fileSize": "2.6MB",
+      "downloadUrl": "https://tryclipstack.com/ClipStack-1.0.1.dmg",
       "installUrl": "https://tryclipstack.com/",
       "screenshot": "https://tryclipstack.com/screenshot-panel.png",
       "softwareHelp": "https://tryclipstack.com/#faq",
@@ -393,7 +393,7 @@ footer { background: var(--surface-alt); padding: 64px 0 56px; border-top: 1px s
     <h1 class="t-hero" data-reveal>Everything you've copied.<br>One keystroke away.</h1>
     <p class="t-lead" data-reveal>Your clipboard holds one thing. ClipStack keeps the rest — every snippet, link and screenshot you copy — and puts any of it back into the app you're working in.</p>
     <div class="cta-row" style="margin-top:38px" data-reveal>
-      <a class="btn btn-primary" href="#pricing">Download Free Trial</a>
+      <a class="btn btn-primary" href="#download">Download for macOS</a>
       <a class="btn btn-secondary" href="#pricing" data-checkout>Buy — $12 ›</a>
     </div>
     <p class="t-caption hero-meta" data-reveal>One-time purchase · macOS 14+ · Apple Silicon &amp; Intel</p>
@@ -610,14 +610,19 @@ footer { background: var(--surface-alt); padding: 64px 0 56px; border-top: 1px s
   <div class="wrap">
     <h2 class="t-title2" data-reveal>Installing takes about twenty seconds.</h2>
     <div class="install">
-      <div data-reveal><div class="install-n">01</div><h3 class="t-title3">Download</h3><p class="t-small">A single 2.1 MB file, notarized by Apple.</p></div>
+      <div data-reveal><div class="install-n">01</div><h3 class="t-title3">Download</h3><p class="t-small">A single 2.6 MB file. Universal, so it runs natively on any Mac.</p></div>
       <div data-reveal><div class="install-n">02</div><h3 class="t-title3">Drag to Applications</h3><p class="t-small">The usual place. No installer, no admin password.</p></div>
       <div data-reveal><div class="install-n">03</div><h3 class="t-title3">Open it</h3><p class="t-small">ClipStack appears in the menu bar and starts capturing.</p></div>
     </div>
     <div class="cta-row" style="margin-top:56px" data-reveal>
-      <a class="btn btn-primary" href="#" data-download>Download Free Trial</a>
+      <a class="btn btn-primary" href="ClipStack-1.0.1.dmg" data-download>Download for macOS</a>
     </div>
-    <p class="t-caption" style="margin-top:16px" data-reveal>Version 1.0.0 · Universal · macOS 14 or later</p>
+    <p class="t-caption" style="margin-top:16px" data-reveal>Version 1.0.1 · Universal · macOS 14 or later</p>
+    <p class="t-caption" style="margin-top:10px;max-width:520px;margin-left:auto;margin-right:auto" data-reveal>
+      This early build isn't notarized yet, so the first time you open it macOS will ask you to confirm:
+      open <strong>System Settings → Privacy &amp; Security</strong> and click <strong>Open&nbsp;Anyway</strong>.
+      That step disappears once the signed release lands.
+    </p>
   </div>
 </section>
 
@@ -693,7 +698,7 @@ footer { background: var(--surface-alt); padding: 64px 0 56px; border-top: 1px s
 //   <script src="https://app.lemonsqueezy.com/js/lemon.js" defer><\/script>
 // then point [data-checkout] at the product's buy URL and add
 // class="lemonsqueezy-button" so the hosted overlay opens in place.
-// [data-download] should point at the notarized DMG.
+// [data-download] is wired. Repoint it at each new DMG on release.
 </script>
 
 </body>
