@@ -12,3 +12,7 @@ import os
 /// Deliberately never logs clipboard contents — only state and key codes.
 let pasteLog = Logger(subsystem: "com.mickey.clipstack", category: "paste")
 let loginLog = Logger(subsystem: "com.mickey.clipstack", category: "login")
+/// Keychain failures in particular: they are invisible to the user by design, and a
+/// broken ACL after a re-sign looks identical to "no licence" without this.
+/// Never logs a licence key.
+let licenseLog = Logger(subsystem: "com.mickey.clipstack", category: "license")

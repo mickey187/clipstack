@@ -11,6 +11,11 @@ final class PopupModel {
     var selectedID: UUID?
     var hasAccessibility: Bool = true
 
+    /// Refreshed on every open, like `hasAccessibility`. Defaults to `.licensed` so a
+    /// model built before the manager exists shows no licensing UI at all.
+    var entitlement: Entitlement = .licensed
+    var onActivate: () -> Void = {}
+
     /// Drives both the panel frame and the type scale inside it. Owned by the
     /// model so the SwiftUI tree redraws at the new scale the moment it changes.
     var panelSize: PanelSize = .default
@@ -213,13 +218,26 @@ final class PopupPanelController: NSObject, NSWindowDelegate {
         NSSize(width: model.panelSize.width, height: model.panelSize.height)
     }
 
-    init(store: ClipboardStore) {
+    private let license: LicenseManager?
+    private let onActivate: () -> Void
+
+    init(
+        store: ClipboardStore,
+        license: LicenseManager? = nil,
+        onActivate: @escaping () -> Void = {}
+    ) {
         self.store = store
+        self.license = license
+        self.onActivate = onActivate
         self.model = PopupModel(store: store, panelSize: Preferences.panelSize)
         super.init()
 
         model.onPaste = { [weak self] item in self?.paste(item) }
         model.onDismiss = { [weak self] in self?.hide() }
+        model.onActivate = { [weak self] in
+            self?.hide()
+            self?.onActivate()
+        }
 
         buildPanel()
     }
@@ -295,6 +313,11 @@ final class PopupPanelController: NSObject, NSWindowDelegate {
         }
 
         model.hasAccessibility = Permissions.hasAccessibility
+        if let license {
+            // Cheap, and keeps a long-running session's countdown honest.
+            license.observeClock()
+            model.entitlement = license.entitlement
+        }
         model.clearFilters()
         model.resetSelection()
 

@@ -30,6 +30,46 @@ Needs only the Xcode **Command Line Tools** (`xcode-select --install`) — not f
 swift run                          # run in the terminal to watch stdout
 ```
 
+## Licensing and the trial
+
+ClipStack is a 14-day trial, then a one-time purchase. The trial clock and the licence
+live in the **login keychain**, not in `UserDefaults`, because the keychain survives
+dragging the app to the Trash — otherwise a reinstall would reset the trial.
+
+Most of the logic is in `Sources/ClipStackCore/Licensing/` and is unit tested. Two
+behaviours are worth knowing before you change anything there:
+
+- **A failed network request never costs anyone their licence.** Only an explicit "no"
+  from the server does, and even then there is a seven-day grace period. Offline
+  tolerance is unbounded by design.
+- **An unreadable keychain is not the same as an absent one.** A cancelled prompt or a
+  locked keychain returns `.unavailable`, which writes nothing and assumes the trial is
+  running. Treating it as "no record" would hand out a fresh trial to anyone who
+  cancels the prompt.
+
+Run `Scripts/create-signing-cert.sh` before doing licensing work. Ad-hoc signing changes
+the keychain ACL on every rebuild, so macOS will ask for your password each time.
+
+### Manual checks
+
+`SecItem` can't be unit tested, so verify these by hand after touching storage:
+
+```bash
+# Start over as a brand new install
+security delete-generic-password -s com.mickey.clipstack.trial
+security delete-generic-password -s com.mickey.clipstack.license
+defaults delete com.mickey.clipstack ClipStack.trialMirror
+
+# Inspect the current trial record
+security find-generic-password -s com.mickey.clipstack.trial -w
+```
+
+- Delete and reinstall the app — the day count must **not** reset.
+- Backdate `installedAt` by 15 days, relaunch — copying adds nothing new, but ⌥⌘V still
+  opens and old items still paste.
+- Move the system clock back a week — still expired.
+- Cancel the keychain prompt — the app keeps working and the trial is not reset.
+
 ## Releasing
 
 ```bash

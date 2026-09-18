@@ -11,6 +11,7 @@ final class ClipboardMonitor {
     private let pasteboard = NSPasteboard.general
     private var timer: Timer?
     private var lastChangeCount: Int
+    private let isCaptureAllowed: @MainActor () -> Bool
 
     /// Pasteboard types whose presence means "do not record this".
     /// Password managers and clipboard utilities set these by convention.
@@ -22,7 +23,14 @@ final class ClipboardMonitor {
         "de.petermaurer.TransientPasteboardType",
     ]
 
-    init(store: ClipboardStore) {
+    /// `isCaptureAllowed` is consulted on every change rather than by starting and
+    /// stopping the timer, so the change count keeps tracking reality while capture is
+    /// off — see `poll()`.
+    init(
+        store: ClipboardStore,
+        isCaptureAllowed: @escaping @MainActor () -> Bool = { true }
+    ) {
+        self.isCaptureAllowed = isCaptureAllowed
         self.store = store
         self.lastChangeCount = pasteboard.changeCount
     }
@@ -45,7 +53,12 @@ final class ClipboardMonitor {
     private func poll() {
         let current = pasteboard.changeCount
         guard current != lastChangeCount else { return }
+        // The counter is updated unconditionally, *before* the entitlement check. If
+        // the guard below came first the count would freeze while the trial was
+        // expired, and the next copy after activating would drag in whatever was
+        // copied during the expired window — exactly what the trial promises not to do.
         lastChangeCount = current
+        guard isCaptureAllowed() else { return }
         capture()
     }
 

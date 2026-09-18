@@ -19,6 +19,10 @@ struct PopupView: View {
                 accessibilityBanner
             }
 
+            if let message = model.entitlement.bannerMessage {
+                licenseBanner(message)
+            }
+
             // No point offering filters over an empty history.
             if !model.store.items.isEmpty {
                 searchPill
@@ -144,6 +148,25 @@ struct PopupView: View {
                 .foregroundStyle(.secondary)
             Spacer()
             Button("Enable…") { Permissions.openAccessibilitySettings() }
+                .buttonStyle(.accessoryBar)
+                .font(.system(size: panelSize.scaled(11)))
+        }
+        .padding(.horizontal, panelSize.scaled(12))
+        .padding(.bottom, panelSize.scaled(8))
+    }
+
+    /// Only ever shown when there is something to act on — never for a healthy licence.
+    private func licenseBanner(_ message: String) -> some View {
+        HStack(spacing: panelSize.scaled(6)) {
+            Image(systemName: model.entitlement.capturesClipboard
+                  ? "clock.badge.exclamationmark"
+                  : "exclamationmark.triangle.fill")
+                .foregroundStyle(model.entitlement.capturesClipboard ? .orange : .red)
+            Text(message)
+                .font(.system(size: panelSize.scaled(11)))
+                .foregroundStyle(.secondary)
+            Spacer()
+            Button(model.entitlement.isPaid ? "Fix…" : "Activate…") { model.onActivate() }
                 .buttonStyle(.accessoryBar)
                 .font(.system(size: panelSize.scaled(11)))
         }

@@ -61,7 +61,12 @@ if security find-identity -v -p codesigning | grep -q "$IDENTITY"; then
 else
   echo "==> No '$IDENTITY' identity found — falling back to ad-hoc signing."
   echo "    ⚠️  You will have to re-grant Accessibility after every rebuild."
-  echo "    Run Scripts/create-signing-cert.sh once to fix that."
+  echo "    ⚠️  Worse for licensing: keychain ACLs are tied to the signature, so"
+  echo "        every rebuild makes macOS demand your password to read the trial"
+  echo "        and licence items — from an app with no windows, which looks"
+  echo "        exactly like malware. Licensing work is impractical without a"
+  echo "        stable identity."
+  echo "    Run Scripts/create-signing-cert.sh once to fix both."
   codesign --force --sign - "$APP"
 fi
 

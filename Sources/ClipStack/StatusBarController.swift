@@ -10,6 +10,8 @@ final class StatusBarController: NSObject, NSMenuDelegate {
     private let statusItem: NSStatusItem
     private let store: ClipboardStore
     private let updates: UpdateChecker
+    private let license: LicenseManager
+    private let onActivate: () -> Void
     private let onOpen: () -> Void
     private let panelSize: () -> PanelSize
     private let onPanelSize: (PanelSize) -> Void
@@ -18,12 +20,16 @@ final class StatusBarController: NSObject, NSMenuDelegate {
     init(
         store: ClipboardStore,
         updates: UpdateChecker,
+        license: LicenseManager,
+        onActivate: @escaping () -> Void,
         onOpen: @escaping () -> Void,
         panelSize: @escaping () -> PanelSize,
         onPanelSize: @escaping (PanelSize) -> Void
     ) {
         self.store = store
         self.updates = updates
+        self.license = license
+        self.onActivate = onActivate
         self.onOpen = onOpen
         self.panelSize = panelSize
         self.onPanelSize = onPanelSize
@@ -57,6 +63,8 @@ final class StatusBarController: NSObject, NSMenuDelegate {
 
     func menuNeedsUpdate(_ menu: NSMenu) {
         menu.removeAllItems()
+
+        addLicensingItems(to: menu)
 
         // Surfaced at the top only when there is genuinely something newer.
         if let version = updates.availableVersion {
@@ -191,5 +199,44 @@ final class StatusBarController: NSObject, NSMenuDelegate {
 
     @objc private func quit() {
         NSApp.terminate(nil)
+    }
+
+    /// Trial countdown, or whatever needs sorting out. Nothing at all once someone has
+    /// paid — a licensed user should never be reminded that licensing exists.
+    private func addLicensingItems(to menu: NSMenu) {
+        let entitlement = license.entitlement
+        guard let title = entitlement.menuTitle else { return }
+
+        let status = NSMenuItem(title: title, action: nil, keyEquivalent: "")
+        status.isEnabled = false
+        menu.addItem(status)
+
+        let activate = NSMenuItem(
+            title: "Activate Licence…",
+            action: #selector(openActivation),
+            keyEquivalent: ""
+        )
+        activate.target = self
+        menu.addItem(activate)
+
+        if !entitlement.isPaid {
+            let buy = NSMenuItem(
+                title: "Buy ClipStack — $12…",
+                action: #selector(openCheckout),
+                keyEquivalent: ""
+            )
+            buy.target = self
+            menu.addItem(buy)
+        }
+
+        menu.addItem(.separator())
+    }
+
+    @objc private func openActivation() {
+        onActivate()
+    }
+
+    @objc private func openCheckout() {
+        NSWorkspace.shared.open(Checkout.purchaseURL)
     }
 }
