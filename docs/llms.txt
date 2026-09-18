@@ -54,6 +54,6 @@ support staff — and who lose time re-finding things they copied minutes ago.
 - Home: https://tryclipstack.com/
 - Pricing: https://tryclipstack.com/#pricing
 - FAQ: https://tryclipstack.com/#faq
-- Privacy Policy: https://tryclipstack.com/privacy.html
-- Terms of Use: https://tryclipstack.com/terms.html
-- Refund Policy: https://tryclipstack.com/refund.html
+- Privacy Policy: https://tryclipstack.com/privacy
+- Terms of Use: https://tryclipstack.com/terms
+- Refund Policy: https://tryclipstack.com/refund
