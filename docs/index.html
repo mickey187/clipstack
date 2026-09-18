@@ -50,7 +50,7 @@
       "fileSize": "2.1MB",
       "downloadUrl": "https://tryclipstack.com/",
       "installUrl": "https://tryclipstack.com/",
-      "screenshot": "https://tryclipstack.com/screenshot.png",
+      "screenshot": "https://tryclipstack.com/screenshot-panel.png",
       "softwareHelp": "https://tryclipstack.com/#faq",
       "releaseNotes": "https://tryclipstack.com/",
       "featureList": [
@@ -306,15 +306,13 @@ section.tight { padding: 140px 0; }
 .faq details[open] summary::after { transform: rotate(45deg); }
 .faq details p { margin: 0 0 26px; padding-right: 46px; }
 
-/* ── Screenshot placeholders ───────────────────────────────────────── */
+/* ── Product shot ──────────────────────────────────────────────────── */
 .shot { margin: 0; }
-.shot img { display: block; margin: 0 auto; filter: var(--shot-shadow); border-radius: 12px; }
-.shot figcaption { margin-top: 18px; }
-.placeholder {
-  border: 1px dashed var(--hairline); border-radius: 14px; background: var(--surface-alt);
-  display: grid; place-items: center; text-align: center; padding: 40px; gap: 6px;
-  aspect-ratio: 980 / 420; color: var(--ink-3);
+.shot img {
+  display: block; margin: 0 auto; max-width: 100%; height: auto;
+  border-radius: 12px; filter: var(--shot-shadow);
 }
+.shot figcaption { margin-top: 18px; text-align: center; }
 
 /* ── Footer ────────────────────────────────────────────────────────── */
 footer { background: var(--surface-alt); padding: 64px 0 56px; border-top: 1px solid var(--hairline); }
@@ -353,7 +351,7 @@ footer { background: var(--surface-alt); padding: 64px 0 56px; border-top: 1px s
   .hero-shot { margin-top: 56px; padding: 0 24px 72px; }
   .panel { width: 100%; max-width: 420px; }
   .nav-links { display: none; }
-  .steps, .features, .privacy-grid, .shortcuts, .install, .foot-grid, .shot-pair { grid-template-columns: 1fr !important; }
+  .steps, .features, .privacy-grid, .shortcuts, .install, .foot-grid { grid-template-columns: 1fr; }
   .steps { gap: 48px; margin-top: 48px; }
   .features { gap: 36px; margin-top: 48px; }
   .privacy-grid, .shortcuts { gap: 32px; margin-top: 44px; }
@@ -509,11 +507,9 @@ footer { background: var(--surface-alt); padding: 64px 0 56px; border-top: 1px s
     </div>
 
     <figure class="shot" style="margin-top:90px" data-reveal>
-      <!-- TODO: replace with the real capture — 1960 × 840 @2x -->
-      <div class="placeholder">
-        <strong class="t-small" style="color:var(--ink-2)">Screenshot placeholder</strong>
-        <span class="t-caption">The panel floating over a real app — 1960 × 840 @2x</span>
-      </div>
+      <img src="screenshot-panel.png" width="1740" height="815" loading="lazy"
+           alt="The ClipStack panel open over a Notes window. The word &quot;review&quot; has been typed into the search field and the list has narrowed to three matching items, with a pinned item held at the top.">
+      <figcaption class="t-caption">Start typing and the list narrows as you go. Pinned items stay put.</figcaption>
     </figure>
   </div>
 </section>
@@ -531,23 +527,6 @@ footer { background: var(--surface-alt); padding: 64px 0 56px; border-top: 1px s
       <div class="feature" data-reveal><div class="feature-icon">◌</div><h3 class="t-title3">Starts at login</h3><p class="t-small">Turn it on once and ClipStack is in the menu bar from the moment you log in. No Dock icon, no windows.</p></div>
       <div class="feature" data-reveal><div class="feature-icon">⚿</div><h3 class="t-title3">Skips your passwords</h3><p class="t-small">Anything a password manager marks confidential is ignored outright — it never enters the history at all.</p></div>
       <div class="feature" data-reveal><div class="feature-icon">≈</div><h3 class="t-title3">About 17 MB</h3><p class="t-small">No measurable CPU while idle. A universal binary, native on Apple Silicon and Intel.</p></div>
-    </div>
-
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:34px;margin-top:90px" class="shot-pair">
-      <figure class="shot">
-        <!-- TODO: replace with the real capture — 1256 × 600 @2x -->
-        <div class="placeholder" style="aspect-ratio:1256/600">
-          <strong class="t-small" style="color:var(--ink-2)">Screenshot placeholder</strong>
-          <span class="t-caption">Type-to-filter state — 1256 × 600 @2x</span>
-        </div>
-      </figure>
-      <figure class="shot">
-        <!-- TODO: replace with the real capture — 1256 × 600 @2x -->
-        <div class="placeholder" style="aspect-ratio:1256/600">
-          <strong class="t-small" style="color:var(--ink-2)">Screenshot placeholder</strong>
-          <span class="t-caption">Menu bar icon in context — 1256 × 600 @2x</span>
-        </div>
-      </figure>
     </div>
   </div>
 </section>
