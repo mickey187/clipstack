@@ -313,6 +313,7 @@ section.tight { padding: 140px 0; }
   border-radius: 12px; filter: var(--shot-shadow);
 }
 .shot figcaption { margin-top: 18px; text-align: center; }
+.shot-tall img { max-width: 620px; }
 
 /* ── Footer ────────────────────────────────────────────────────────── */
 footer { background: var(--surface-alt); padding: 64px 0 56px; border-top: 1px solid var(--hairline); }
@@ -506,10 +507,10 @@ footer { background: var(--surface-alt); padding: 64px 0 56px; border-top: 1px s
       </div>
     </div>
 
-    <figure class="shot" style="margin-top:90px" data-reveal>
-      <img src="screenshot-panel.png" width="1740" height="815" loading="lazy"
-           alt="The ClipStack panel open over a Notes window. The word &quot;review&quot; has been typed into the search field and the list has narrowed to three matching items, with a pinned item held at the top.">
-      <figcaption class="t-caption">Start typing and the list narrows as you go. Pinned items stay put.</figcaption>
+    <figure class="shot shot-tall" style="margin-top:90px" data-reveal>
+      <img src="screenshot-inuse.png" width="985" height="1008" loading="lazy"
+           alt="The ClipStack panel open on top of a half-written Mail message. The history holds a pinned note, a selected draft, a copied image and a block of code, and the panel floats clear of the Mail window over the desktop.">
+      <figcaption class="t-caption">The panel opens over whatever you're working in. Pick an item and it goes straight back.</figcaption>
     </figure>
   </div>
 </section>
@@ -528,6 +529,12 @@ footer { background: var(--surface-alt); padding: 64px 0 56px; border-top: 1px s
       <div class="feature" data-reveal><div class="feature-icon">⚿</div><h3 class="t-title3">Skips your passwords</h3><p class="t-small">Anything a password manager marks confidential is ignored outright — it never enters the history at all.</p></div>
       <div class="feature" data-reveal><div class="feature-icon">≈</div><h3 class="t-title3">About 17 MB</h3><p class="t-small">No measurable CPU while idle. A universal binary, native on Apple Silicon and Intel.</p></div>
     </div>
+
+    <figure class="shot" style="margin-top:90px" data-reveal>
+      <img src="screenshot-panel.png" width="1740" height="815" loading="lazy"
+           alt="The ClipStack panel over a Notes window. The word &quot;review&quot; has been typed into the search field and the list has narrowed to three matching items, with a pinned item held at the top.">
+      <figcaption class="t-caption">Start typing and the list narrows as you go. Pinned items stay put.</figcaption>
+    </figure>
   </div>
 </section>
 
