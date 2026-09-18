@@ -3,7 +3,7 @@ import ClipStackCore
 import Foundation
 import Observation
 
-/// Asks GitHub once a day whether there is a newer release.
+/// Asks our own site once a day whether there is a newer release.
 ///
 /// Deliberately minimal: it never downloads, never installs, and never shows a
 /// modal. A newer version simply adds an item to the status menu. Every failure
@@ -12,7 +12,11 @@ import Observation
 @MainActor
 @Observable
 final class UpdateChecker {
-    static let repository = "mickey187/clipstack"
+    /// A static JSON file served next to the site. Deliberately not the GitHub API:
+    /// the source repository is private, so an API call would 404 — and because every
+    /// failure here is a silent no-op, that would have quietly stopped every existing
+    /// install from ever hearing about an update again.
+    static let appcastURL = URL(string: "https://tryclipstack.com/appcast.json")!
 
     /// Set only when the published release is strictly newer than this build.
     private(set) var availableVersion: String?
@@ -22,7 +26,7 @@ final class UpdateChecker {
     private let checkInterval: TimeInterval = 60 * 60 * 24
 
     var releasesURL: URL {
-        URL(string: "https://github.com/\(Self.repository)/releases/latest")!
+        URL(string: "https://tryclipstack.com/#download")!
     }
 
     var currentVersion: String {
@@ -67,11 +71,12 @@ final class UpdateChecker {
     }
 
     private func fetchLatestTag() async -> String? {
-        let url = URL(string: "https://api.github.com/repos/\(Self.repository)/releases/latest")!
-        var request = URLRequest(url: url, timeoutInterval: 10)
-        request.setValue("application/vnd.github+json", forHTTPHeaderField: "Accept")
-        // GitHub rejects API requests without one.
+        var request = URLRequest(url: Self.appcastURL, timeoutInterval: 10)
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
         request.setValue("ClipStack/\(currentVersion)", forHTTPHeaderField: "User-Agent")
+        // The appcast is small and changes rarely, but a stale cache would delay an
+        // update by up to a day for no benefit.
+        request.cachePolicy = .reloadIgnoringLocalCacheData
 
         guard let (data, response) = try? await URLSession.shared.data(for: request),
               let http = response as? HTTPURLResponse,
