@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thank you — ClipStack</title>
+<meta name="description" content="Your ClipStack licence key and download.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="stylesheet" href="page.css">
+<style>
+main{padding:96px 0 120px}
+.wrap{width:760px}
+.lede{font-size:21px;line-height:1.52;letter-spacing:-.01em;color:var(--ink-2);margin:0 0 48px;max-width:620px}
+.card{border:1px solid var(--hairline);border-radius:18px;padding:32px;margin:0 0 20px;background:var(--surface)}
+.card h2{margin:0 0 14px;font-size:13px;font-weight:600;letter-spacing:.02em;text-transform:uppercase;color:var(--ink-3)}
+.keyrow{display:flex;gap:12px;align-items:stretch;flex-wrap:wrap}
+.key{flex:1;min-width:260px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:16px;letter-spacing:.02em;color:var(--ink);background:var(--surface-alt);border:1px solid var(--hairline);border-radius:10px;padding:14px 16px;display:flex;align-items:center;word-break:break-all}
+.copy{flex:none;height:auto;min-height:50px;padding:0 22px;border-radius:10px;background:var(--accent);color:#fff;border:0;font:inherit;font-size:15px;font-weight:500;cursor:pointer;transition:background-color .2s ease}
+.copy:hover{background:var(--accent-hover)}
+.copy.done{background:#1e7b45}
+.order{display:flex;gap:26px;flex-wrap:wrap;margin-top:18px}
+.order p{font-size:13px;color:var(--ink-3);margin:0}
+.dl{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.dl img{width:58px;height:58px;border-radius:14px;flex:none}
+.dl-main{flex:1;min-width:200px}
+.dl-main strong{display:block;font-size:17px;font-weight:600;letter-spacing:-.012em;color:var(--ink)}
+.dl-main span{font-size:13px;color:var(--ink-3)}
+.btn{display:inline-flex;align-items:center;justify-content:center;height:50px;padding:0 28px;border-radius:980px;background:var(--accent);color:#fff;font-size:16px;font-weight:500;letter-spacing:-.01em;text-decoration:none;transition:background-color .2s ease}
+.btn:hover{background:var(--accent-hover)}
+.steps{counter-reset:s;list-style:none;padding:0;margin:26px 0 0}
+.steps li{counter-increment:s;position:relative;padding:0 0 26px 48px;margin:0}
+.steps li::before{content:counter(s);position:absolute;left:0;top:-2px;width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-size:14px;font-weight:600}
+.steps strong{display:block;font-size:17px;font-weight:600;letter-spacing:-.012em;color:var(--ink);margin-bottom:5px}
+.steps p{margin:0;font-size:15px;line-height:1.55}
+.help{border-top:1px solid var(--hairline);margin-top:44px;padding-top:26px}
+.help p{font-size:15px}
+@media(max-width:860px){main{padding:56px 0 72px}.lede{font-size:17px;margin-bottom:34px}.card{padding:22px}.copy{width:100%}}
+</style>
+</head>
+<body>
+
+<nav class="nav"><div class="wrap">
+  <a class="nav-brand" href="index.html"><img src="icon.png" alt="" width="22" height="22" style="border-radius:5.5px"> ClipStack</a>
+  <a class="back" href="index.html">Back to ClipStack ›</a>
+</div></nav>
+
+<main><div class="wrap">
+  <h1>Thank you. ClipStack is yours.</h1>
+  <p class="lede">Your licence key is below, and a copy is on its way to your email. Keep it somewhere safe — it works on every Mac you own, for every future version.</p>
+
+  <div class="card">
+    <h2>Your licence key</h2>
+    <div class="keyrow">
+      <!-- Lemon Squeezy fills this on the real success page. -->
+      <code class="key" id="key" data-license-key>XXXX-XXXX-XXXX-XXXX</code>
+      <button class="copy" type="button" id="copy">Copy</button>
+    </div>
+    <div class="order">
+      <p>Order <span data-order-id>—</span></p>
+      <p>Licensed to <span data-customer-email>—</span></p>
+      <p>$12.00 paid</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Download</h2>
+    <div class="dl">
+      <img src="icon.png" alt="" width="58" height="58">
+      <div class="dl-main">
+        <strong>ClipStack 1.0</strong>
+        <span>Universal · 2.1 MB · macOS 14 or later · notarized by Apple</span>
+      </div>
+      <a class="btn" href="#" data-download>Download</a>
+    </div>
+  </div>
+
+  <h2 style="font-size:30px;line-height:1.2;letter-spacing:-.024em;margin:56px 0 0">Three steps and you're running.</h2>
+  <ol class="steps">
+    <li><strong>Download and drag to Applications</strong><p>Open the downloaded file and drag ClipStack into your Applications folder. There is no installer and no admin password.</p></li>
+    <li><strong>Open ClipStack</strong><p>It appears in the menu bar — no Dock icon, no window. macOS will ask once for Accessibility access, which is what lets it paste into your apps.</p></li>
+    <li><strong>Paste your key</strong><p>Click the menu bar icon, choose Activate, and paste the licence key from above. That's the last time you'll think about it.</p></li>
+  </ol>
+
+  <div class="help">
+    <p>Lost the key or stuck on activation? Write to <a href="mailto:support@tryclipstack.com">support@tryclipstack.com</a> and you'll hear back the same day. You have 30 days to ask for a refund, no questions.</p>
+  </div>
+</div></main>
+
+<footer><div class="wrap">
+  <p>Copyright © 2026 ClipStack. All rights reserved.</p>
+  <div class="foot-links">
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="terms.html">Terms of Use</a>
+    <a href="refund.html">Refund Policy</a>
+  </div>
+</div></footer>
+
+<script>
+document.getElementById('copy').addEventListener('click', function () {
+  var btn = this, key = document.getElementById('key').textContent.trim();
+  navigator.clipboard.writeText(key).then(function () {
+    btn.textContent = 'Copied';
+    btn.classList.add('done');
+    setTimeout(function () { btn.textContent = 'Copy'; btn.classList.remove('done'); }, 2000);
+  });
+});
+</script>
+
+</body>
+</html>

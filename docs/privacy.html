@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy Policy — ClipStack</title>
+<meta name="description" content="How ClipStack handles your data: clipboard history stays on your Mac, with no account, no sync and no telemetry.">
+<link rel="canonical" href="https://tryclipstack.com/privacy.html">
+<meta name="robots" content="index, follow">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="stylesheet" href="page.css">
+</head>
+<body>
+<nav class="nav"><div class="wrap">
+  <a class="nav-brand" href="index.html"><img src="icon.png" alt="" width="22" height="22" style="border-radius:5.5px"> ClipStack</a>
+  <a class="back" href="index.html">Back to ClipStack ›</a>
+</div></nav>
+<main><div class="wrap">
+<h1>Privacy Policy</h1>
+<p class="updated">Last updated 18 September 2026</p>
+<div class="draft"><p><strong>Draft — review before launch.</strong> This is a working template written from what ClipStack actually does, not legal advice. Fill in the bracketed details and have someone qualified read it before you take money.</p></div>
+<p>ClipStack is a clipboard manager, which means it necessarily sees a great deal of what you do. This page explains exactly what happens to that information. The short version: it stays on your Mac.</p>
+
+<h2>What ClipStack stores, and where</h2>
+<p>ClipStack keeps a history of what you copy — text and images — so you can paste it back later. That history is written to a file inside your own user Library folder, at <code>~/Library/Application Support/ClipStack/</code>, on the disk of the Mac you are using.</p>
+<p>It is never uploaded, synced, backed up to us, or transmitted anywhere. We operate no server that receives clipboard contents and have no ability to read your history. If you delete the app and that folder, the data is gone.</p>
+
+<h2>What ClipStack deliberately ignores</h2>
+<p>When a password manager or another app marks a copy as confidential, macOS attaches a flag to it. ClipStack honours that flag and refuses the item outright — it never enters the history at all.</p>
+
+<h2>Network requests</h2>
+<p>ClipStack makes two network requests in total. Neither carries your clipboard contents.</p>
+<ul>
+  <li><strong>Update check.</strong> At most once a day, the app asks our server whether a newer version has been published. The request sends the version you are running so we can answer it. It downloads nothing on its own.</li>
+  <li><strong>Licence verification.</strong> When you activate a licence key, the app sends that key — and the name of your Mac, so you can recognise it in your purchase account — to Lemon Squeezy, our payment provider, to confirm it is valid. It re-checks about once a month afterwards so that refunded or revoked keys stop working. If that check fails for any reason, including being offline, nothing changes and your licence keeps working.</li>
+</ul>
+<p>Both can be switched off in Preferences. There is no analytics, no telemetry, no crash reporting and no advertising or tracking technology of any kind in the app.</p>
+
+<h2>Permissions the app requests</h2>
+<p>ClipStack asks for one macOS permission: <strong>Accessibility</strong>. This is what allows it to paste into the app you were previously using. It is not used for any other purpose, and declining it simply means you press ⌘V yourself.</p>
+
+<h2>Purchases</h2>
+<p>Payments are handled by <strong>Lemon Squeezy</strong>, which acts as the merchant of record and is the seller of the licence to you. When you buy, you provide your details to them, not to us. We receive your email address and order details so we can deliver your licence key and provide support. We never see your full card number.</p>
+<p>Lemon Squeezy's own privacy policy governs the information you give them at checkout.</p>
+
+<h2>This website</h2>
+<p>This site is static. It sets no cookies, runs no analytics and embeds no third-party trackers. Our host records standard server logs, including IP addresses, as part of serving the page.</p>
+
+<h2>Your rights</h2>
+<p>Because clipboard history never reaches us, there is nothing of yours for us to export or delete on request. For the purchase record held by our payment provider, you can contact us and we will help you exercise your rights under applicable law, including the GDPR where it applies.</p>
+
+<h2>Children</h2>
+<p>ClipStack is not directed at children under 13 and we do not knowingly collect information from them.</p>
+
+<h2>Changes</h2>
+<p>If this policy changes, the revised version will be posted here with a new date. Material changes will be noted in the app's release notes.</p>
+
+<h2>Contact</h2>
+<p>Questions about this policy: <a href="mailto:support@tryclipstack.com">support@tryclipstack.com</a>.</p>
+<p>[Legal name and postal address of the seller — required in most jurisdictions.]</p>
+</div></main>
+<footer><div class="wrap">
+  <p>Copyright © 2026 ClipStack. All rights reserved.</p>
+  <div class="foot-links">
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="terms.html">Terms of Use</a>
+    <a href="refund.html">Refund Policy</a>
+    <a href="mailto:support@tryclipstack.com">Support</a>
+  </div>
+</div></footer>
+</body>
+</html>

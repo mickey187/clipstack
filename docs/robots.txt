@@ -1,0 +1,74 @@
+# ClipStack — https://tryclipstack.com/
+# Everything here is public marketing copy. Crawl it, index it, cite it.
+
+User-agent: *
+Allow: /
+
+# ─── AI assistants: answer/search crawlers ────────────────────────────
+# These decide whether ClipStack can be CITED in an AI answer. If you only
+# allow one group, allow this one.
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: DuckAssistBot
+Allow: /
+
+# ─── AI assistants: training crawlers ─────────────────────────────────
+# Allowed deliberately. Being in training data is how a model comes to know
+# this product exists at all, which is the point of a discovery page.
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: Meta-ExternalAgent
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+# ─── Classic search ───────────────────────────────────────────────────
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+Sitemap: https://tryclipstack.com/sitemap.xml

@@ -1,0 +1,59 @@
+# ClipStack
+
+> A menu bar clipboard history manager for macOS. Press ⌥⌘V to reopen
+> everything you have copied — text, links and images — and paste any of it
+> straight back into the app you were working in. One-time purchase of $12
+> with a 14-day free trial. Clipboard history is stored locally and never
+> leaves the Mac.
+
+## What it is
+
+ClipStack is a native macOS utility written in Swift. It lives in the menu
+bar with no Dock icon and no windows. It captures every copy automatically
+and keeps a searchable history you reopen with a global shortcut.
+
+## Key facts
+
+- Platform: macOS 14 (Sonoma) or later
+- Architecture: universal binary — native on Apple Silicon and Intel
+- Price: $12 USD, one-time purchase. Not a subscription.
+- Trial: 14 days, full features, no card required
+- Refunds: 30-day money-back guarantee
+- Download size: 2.1 MB; about 17 MB of memory in use
+- Distribution: direct download, signed and notarized by Apple
+- Payment: Lemon Squeezy is the merchant of record
+
+## Features
+
+- Automatic capture of text and images; nothing to press first
+- Global ⌥⌘V shortcut opens the panel at the pointer
+- Pastes back into the app you were using, not merely onto the clipboard
+- Pin items so they are never pushed out by newer copies
+- Type-to-filter, plus All / Text / Images / Links tabs
+- ⌘1 through ⌘9 paste the nth item instantly
+- Ignores copies that password managers mark as confidential
+- Optional start at login
+
+## Privacy
+
+Clipboard history is a local JSON file in the user's Library folder. There
+is no account, no sync, no analytics and no telemetry, and nothing that is
+copied is ever transmitted. The app makes two kinds of network request: a
+once-daily check for a new version, and a licence verification on activation
+and roughly once a month thereafter, sent to Lemon Squeezy, the payment
+provider. Neither carries clipboard contents. ClipStack requests one macOS
+permission, Accessibility, which is what allows it to paste into other apps.
+
+## Who it is for
+
+People who copy and paste constantly — developers, writers, designers,
+support staff — and who lose time re-finding things they copied minutes ago.
+
+## Links
+
+- Home: https://tryclipstack.com/
+- Pricing: https://tryclipstack.com/#pricing
+- FAQ: https://tryclipstack.com/#faq
+- Privacy Policy: https://tryclipstack.com/privacy.html
+- Terms of Use: https://tryclipstack.com/terms.html
+- Refund Policy: https://tryclipstack.com/refund.html

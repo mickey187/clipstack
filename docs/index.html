@@ -3,240 +3,712 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ClipStack — clipboard history for macOS</title>
-<meta name="description" content="A small, free clipboard history for macOS. Lives in the menu bar, captures every copy, pastes it back with ⌥⌘V.">
-<meta property="og:title" content="ClipStack — clipboard history for macOS">
-<meta property="og:description" content="Lives in the menu bar, captures every copy, pastes it back with ⌥⌘V. Free and open source.">
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     SITE CONSTANTS — https://tryclipstack.com, support@tryclipstack.com.
+     Every internal link is relative, so only absolute SEO URLs carry the host:
+     canonical, og:url, og:image, sitemap.xml, robots.txt, llms.txt, JSON-LD.
+     support@ is delivered by Cloudflare Email Routing, not a real mailbox.
+     ═══════════════════════════════════════════════════════════════════════ -->
+
+<title>ClipStack — Clipboard History for macOS</title>
+<meta name="description" content="ClipStack is a menu bar clipboard manager for macOS. Press ⌥⌘V to bring back anything you've copied — text, links, screenshots — straight into the app you're working in. One-time $12, 14-day free trial, nothing leaves your Mac.">
+<link rel="canonical" href="https://tryclipstack.com/">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+
 <meta property="og:type" content="website">
-<meta property="og:image" content="https://mickey187.github.io/clipstack/icon.png">
+<meta property="og:site_name" content="ClipStack">
+<meta property="og:title" content="ClipStack — Clipboard History for macOS">
+<meta property="og:description" content="Everything you've copied, one keystroke away. A menu bar clipboard manager for macOS. One-time $12, 14-day free trial.">
+<meta property="og:url" content="https://tryclipstack.com/">
+<meta property="og:image" content="https://tryclipstack.com/icon.png">
+<meta property="og:image:alt" content="The ClipStack app icon">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ClipStack — Clipboard History for macOS">
+<meta name="twitter:description" content="Everything you've copied, one keystroke away. One-time $12, 14-day free trial.">
+<meta name="twitter:image" content="https://tryclipstack.com/icon.png">
+
+<meta name="apple-itunes-app" content="app-clip-bundle-id=">
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preload" as="image" href="icon.png" fetchpriority="high">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://tryclipstack.com/#app",
+      "name": "ClipStack",
+      "description": "A menu bar clipboard history manager for macOS. Press ⌥⌘V to reopen everything you have copied — text, links and images — and paste any of it straight back into the app you were working in. History is stored locally and never leaves the Mac.",
+      "applicationCategory": "UtilitiesApplication",
+      "applicationSubCategory": "Clipboard Manager",
+      "operatingSystem": "macOS 14.0 or later",
+      "processorRequirements": "Apple Silicon or Intel (universal binary)",
+      "softwareVersion": "1.0.0",
+      "fileSize": "2.1MB",
+      "downloadUrl": "https://tryclipstack.com/",
+      "installUrl": "https://tryclipstack.com/",
+      "screenshot": "https://tryclipstack.com/screenshot.png",
+      "softwareHelp": "https://tryclipstack.com/#faq",
+      "releaseNotes": "https://tryclipstack.com/",
+      "featureList": [
+        "Automatic clipboard capture for text and images",
+        "Global ⌥⌘V shortcut opens history at the pointer",
+        "Pastes directly back into the app you were using",
+        "Pin items so they are never pushed out",
+        "Type-to-filter with All, Text, Images and Links tabs",
+        "⌘1–⌘9 pastes the nth item instantly",
+        "Ignores copies marked confidential by password managers",
+        "Starts at login, no Dock icon, about 17 MB of memory",
+        "Local-only storage with no account, sync or telemetry"
+      ],
+      "offers": {
+        "@type": "Offer",
+        "price": "12.00",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock",
+        "url": "https://tryclipstack.com/#pricing",
+        "category": "One-time purchase"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://tryclipstack.com/#faq",
+      "mainEntity": [
+        { "@type": "Question", "name": "Is ClipStack a subscription?", "acceptedAnswer": { "@type": "Answer", "text": "No. ClipStack is a one-time purchase of $12. There is no renewal, no yearly fee and no upgrade pricing — you buy it once and it keeps working." } },
+        { "@type": "Question", "name": "What happens after the 14-day trial?", "acceptedAnswer": { "@type": "Answer", "text": "The trial is the full app with every feature, and it needs no card. When it ends, ClipStack stops capturing new items until you enter a license key. Your existing history stays where it is." } },
+        { "@type": "Question", "name": "Which Macs does ClipStack work on?", "acceptedAnswer": { "@type": "Answer", "text": "Any Mac running macOS 14 Sonoma or later. ClipStack ships as a universal binary, so it runs natively on both Apple Silicon and Intel machines." } },
+        { "@type": "Question", "name": "Does my clipboard data go anywhere?", "acceptedAnswer": { "@type": "Answer", "text": "No. Your clipboard history is a local file on your own disk. There is no account, no sync and no telemetry. ClipStack makes two kinds of network request, neither carrying your data: a once-a-day check for a new version, and a licence check when you activate and roughly once a month after that." } },
+        { "@type": "Question", "name": "How do I get updates?", "acceptedAnswer": { "@type": "Answer", "text": "Updates are free for as long as you use the app, and ClipStack checks for them itself once a day. Your license covers every future version." } },
+        { "@type": "Question", "name": "Can I get a refund?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Write to support within 30 days of buying and you get your money back, no questions and no forms." } }
+      ]
+    }
+  ]
+}
+</script>
+
+<script>document.documentElement.className += ' js';</script>
+
 <style>
 :root {
-  --bg: #fbfbfd;
+  --ink: #1d1d1f;
+  --ink-2: #6e6e73;
+  --ink-3: #86868b;
   --surface: #ffffff;
-  --border: #e3e3e8;
-  --text: #16161a;
-  --muted: #5f5f6b;
-  --accent: #2b6cec;
-  --accent-text: #ffffff;
-  --code-bg: #f2f2f6;
-  --warn-bg: #fff8e8;
-  --warn-border: #f0d089;
-  --shadow: 0 1px 3px rgba(0,0,0,.06), 0 12px 32px rgba(0,0,0,.08);
+  --surface-alt: #f5f5f7;
+  --hairline: rgba(0,0,0,0.09);
+  --accent: #0071e3;
+  --accent-hover: #0077ed;
+  --nav-bg: rgba(255,255,255,0.72);
+  --panel-bg: #ffffff;
+  --panel-row: rgba(0,0,0,0.04);
+  --cap-bg: #fff;
+  --cap-edge: rgba(0,0,0,0.16);
+  --cap-ink: #1d1d1f;
+  --shot-shadow: drop-shadow(0 8px 22px rgba(0,0,0,.10)) drop-shadow(0 44px 80px rgba(0,0,0,.30));
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #0e0e11;
-    --surface: #17171c;
-    --border: #2a2a33;
-    --text: #f2f2f5;
-    --muted: #a0a0ad;
-    --accent: #5b92f5;
-    --accent-text: #0b0b0e;
-    --code-bg: #1e1e25;
-    --warn-bg: #2a2313;
-    --warn-border: #5c4a1e;
-    --shadow: 0 1px 3px rgba(0,0,0,.4), 0 12px 32px rgba(0,0,0,.5);
+    --ink: #f5f5f7;
+    --ink-2: #a1a1a6;
+    --ink-3: #86868b;
+    --surface: #000000;
+    --surface-alt: #1c1c1e;
+    --hairline: rgba(255,255,255,0.14);
+    --accent: #0a84ff;
+    --accent-hover: #3395ff;
+    --accent-link: #4da3ff;
+    --nav-bg: rgba(0,0,0,0.72);
+    --panel-bg: #1c1c1e;
+    --panel-row: rgba(255,255,255,0.06);
+    --cap-bg: #2c2c2e;
+    --cap-edge: rgba(0,0,0,0.6);
+    --cap-ink: #f5f5f7;
+    --shot-shadow: drop-shadow(0 8px 22px rgba(0,0,0,.5)) drop-shadow(0 44px 80px rgba(0,0,0,.6));
   }
 }
+
 * { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 body {
   margin: 0;
-  background: var(--bg);
-  color: var(--text);
-  font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  background: var(--surface);
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
-.wrap { max-width: 760px; margin: 0 auto; padding: 0 24px; }
-h1, h2, h3 { line-height: 1.25; letter-spacing: -0.02em; }
-h2 { margin-top: 3rem; font-size: 1.45rem; }
-h3 { font-size: 1.05rem; margin-bottom: .4rem; }
-p { color: var(--muted); }
-a { color: var(--accent); }
-code, kbd {
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: .88em;
-  background: var(--code-bg);
-  padding: .15em .4em;
-  border-radius: 4px;
-}
-pre {
-  background: var(--code-bg);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 14px 16px;
-  overflow-x: auto;
-}
-pre code { background: none; padding: 0; }
+img { max-width: 100%; }
 
-/* Hero */
-header { text-align: center; padding: 72px 0 8px; }
-.mark {
-  width: 104px; height: 104px; margin: 0 auto 18px; display: block;
-  filter: drop-shadow(0 4px 10px rgba(0,0,0,.2));
+/* ── Type scale (from the style sheet artboard) ────────────────────── */
+.t-hero    { font-size: 76px; line-height: 1.05; letter-spacing: -.035em; font-weight: 600; margin: 0; text-wrap: balance; }
+.t-section { font-size: 60px; line-height: 1.06; letter-spacing: -.032em; font-weight: 600; margin: 0; text-wrap: balance; }
+.t-title1  { font-size: 48px; line-height: 1.08; letter-spacing: -.028em; font-weight: 600; margin: 0; text-wrap: balance; }
+.t-title2  { font-size: 30px; line-height: 1.20; letter-spacing: -.024em; font-weight: 600; margin: 0; }
+.t-title3  { font-size: 21px; line-height: 1.28; letter-spacing: -.018em; font-weight: 600; margin: 0; }
+.t-lead    { font-size: 21px; line-height: 1.52; letter-spacing: -.010em; color: var(--ink-2); margin: 0; text-wrap: pretty; }
+.t-body    { font-size: 19px; line-height: 1.55; letter-spacing: -.010em; color: var(--ink-2); margin: 0; }
+.t-small   { font-size: 15px; line-height: 1.53; letter-spacing: -.006em; color: var(--ink-2); margin: 0; }
+.t-caption { font-size: 13px; line-height: 1.55; letter-spacing:  .004em; color: var(--ink-3); margin: 0; }
+
+.wrap { width: 980px; max-width: calc(100% - 48px); margin: 0 auto; }
+section { padding: 150px 0; }
+section.tight { padding: 140px 0; }
+.alt { background: var(--surface-alt); }
+.center { text-align: center; }
+
+/* ── Buttons ───────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  height: 52px; padding: 0 30px; border-radius: 980px;
+  font-size: 17px; font-weight: 500; letter-spacing: -.01em;
+  text-decoration: none; border: 0; cursor: pointer; font-family: inherit;
+  transition: background-color .2s ease, opacity .2s ease;
 }
-header h1 { font-size: 2.6rem; margin: 0 0 .3rem; }
-.tagline { font-size: 1.15rem; margin: 0 auto 28px; max-width: 30rem; }
-.cta { display: inline-flex; align-items: center; gap: .5rem;
-  background: var(--accent); color: var(--accent-text);
-  text-decoration: none; font-weight: 600;
-  padding: 13px 26px; border-radius: 10px; }
-.cta:hover { filter: brightness(1.08); }
-.meta { margin-top: 12px; font-size: .85rem; color: var(--muted); }
-
-figure { margin: 48px 0 0; }
-figure img {
-  /* The PNG carries its own rounded corners and transparency, so the shadow has
-     to follow the alpha channel — a box-shadow would draw a rectangle behind it.
-     Natural size is 628px at ~1.85x, so 400px keeps it crisp on retina. */
-  display: block; margin: 0 auto;
-  width: 100%; max-width: 400px; height: auto;
-  filter: drop-shadow(0 2px 6px rgba(0,0,0,.18)) drop-shadow(0 16px 40px rgba(0,0,0,.22));
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { background: var(--accent-hover); }
+.btn-primary:active { opacity: .85; }
+.btn-secondary { color: var(--accent); background: none; padding: 0; height: auto; }
+.btn-secondary:hover { text-decoration: underline; }
+.btn-nav {
+  height: 30px; padding: 0 15px; border-radius: 980px;
+  background: var(--accent); color: #fff; font-size: 12.5px; font-weight: 500;
+  letter-spacing: -.005em; border: 0; cursor: pointer; font-family: inherit;
+  display: inline-flex; align-items: center; text-decoration: none;
 }
-figcaption { text-align: center; font-size: .85rem; color: var(--muted); margin-top: 12px; }
+.btn-nav:hover { background: var(--accent-hover); }
+.cta-row { display: flex; align-items: center; justify-content: center; gap: 24px; flex-wrap: wrap; }
 
-/* Steps */
-ol.steps { padding-left: 0; list-style: none; counter-reset: step; }
-ol.steps > li {
-  counter-increment: step; position: relative;
-  padding: 0 0 22px 46px; margin: 0;
+/* ── Nav ───────────────────────────────────────────────────────────── */
+.nav {
+  position: sticky; top: 0; z-index: 30; height: 52px;
+  display: flex; align-items: center; background: var(--nav-bg);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid var(--hairline);
 }
-ol.steps > li::before {
-  content: counter(step);
-  position: absolute; left: 0; top: 0;
-  width: 28px; height: 28px; border-radius: 50%;
-  background: var(--accent); color: var(--accent-text);
-  display: grid; place-items: center;
-  font-size: .82rem; font-weight: 700;
+.nav .wrap { display: flex; align-items: center; gap: 32px; }
+.nav-brand { display: flex; align-items: center; gap: 9px; text-decoration: none; color: var(--ink); font-size: 15px; font-weight: 600; letter-spacing: -.015em; }
+.nav-links { flex: 1; display: flex; align-items: center; gap: 26px; }
+.nav-links a { font-size: 12.5px; color: var(--ink); text-decoration: none; letter-spacing: -.005em; }
+.nav-links a:hover { color: var(--accent); }
+
+/* ── Hero ──────────────────────────────────────────────────────────── */
+.hero { padding: 100px 0 0; background: var(--surface); overflow: hidden; }
+.hero-icon { width: 88px; height: 88px; border-radius: 21px; display: block; margin: 0 auto 34px; box-shadow: 0 18px 40px -14px rgba(41,60,200,.45); }
+.hero .t-lead { max-width: 620px; margin: 26px auto 0; }
+.hero-meta { margin-top: 20px; }
+.hero-trial { margin-top: 10px; }
+.hero-shot { margin-top: 110px; display: flex; justify-content: center; padding: 0 24px 150px; }
+
+/* ── Clipboard panel mock ──────────────────────────────────────────── */
+.panel {
+  width: 460px; max-width: 100%; border-radius: 14px; background: var(--panel-bg);
+  border: 1px solid var(--hairline); overflow: hidden; text-align: left;
+  box-shadow: 0 8px 22px rgba(0,0,0,.10), 0 44px 80px -28px rgba(0,0,0,.30);
 }
-ol.steps p { margin: .2rem 0 0; }
+@media (prefers-color-scheme: dark) { .panel { box-shadow: 0 8px 22px rgba(0,0,0,.5), 0 44px 80px -28px rgba(0,0,0,.7); } }
+.panel-search { display: flex; align-items: center; gap: 10px; padding: 13px 15px; border-bottom: 1px solid var(--hairline); }
+.panel-search > span:first-child { flex: 1; font-size: 14px; color: var(--ink-3); }
+.panel-tabs { display: flex; gap: 6px; padding: 11px 15px; border-bottom: 1px solid var(--hairline); }
+.panel-tab { font-size: 11.5px; padding: 3px 9px; border-radius: 980px; color: var(--ink-2); }
+.panel-tab.on { background: var(--accent); color: #fff; }
+.panel-row { display: flex; align-items: flex-start; gap: 11px; padding: 11px 15px; }
+.panel-row.sel { background: var(--panel-row); }
+.panel-kind { flex: none; width: 30px; height: 30px; border-radius: 7px; background: var(--panel-row); display: grid; place-items: center; font-size: 9.5px; font-weight: 600; color: var(--ink-2); letter-spacing: .02em; }
+.panel-main { flex: 1; min-width: 0; }
+.panel-text { font-size: 13px; line-height: 1.35; color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.panel-meta { font-size: 10.5px; color: var(--ink-3); margin-top: 3px; }
+.panel-pin { font-size: 9px; font-weight: 600; color: var(--accent); letter-spacing: .04em; text-transform: uppercase; }
+.panel-foot { display: flex; align-items: center; gap: 14px; padding: 10px 15px; border-top: 1px solid var(--hairline); font-size: 10.5px; color: var(--ink-3); }
+.panel-foot .spacer { flex: 1; }
 
-.note {
-  background: var(--warn-bg); border: 1px solid var(--warn-border);
-  border-radius: 10px; padding: 16px 18px; margin: 20px 0;
+/* ── Keycaps ───────────────────────────────────────────────────────── */
+.cap {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--cap-bg); color: var(--cap-ink); border-radius: 7px;
+  font-weight: 500; font-variant-numeric: tabular-nums;
+  box-shadow: inset 0 -1px 0 rgba(255,255,255,.7), 0 1.5px 0 var(--cap-edge);
 }
-.note p:last-child { margin-bottom: 0; }
-.note p:first-child { margin-top: 0; }
+@media (prefers-color-scheme: dark) { .cap { box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 1.5px 0 var(--cap-edge); } }
+.cap-lg { height: 48px; min-width: 48px; padding: 0 13px; font-size: 19px; border-radius: 10px; }
+.cap-md { height: 34px; min-width: 34px; padding: 0 10px; font-size: 14px; border-radius: 8px; }
+.cap-sm { height: 20px; min-width: 20px; padding: 0 6px; font-size: 10.5px; border-radius: 5px; }
+.cap-group { display: inline-flex; gap: 6px; }
 
-table { width: 100%; border-collapse: collapse; margin: 16px 0; }
-th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--border); }
-th { font-size: .78rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
-td:first-child { width: 9.5rem; white-space: nowrap; }
-.table-scroll { overflow-x: auto; }
+/* ── The one thing it does ─────────────────────────────────────────── */
+.steps { display: grid; gap: 34px; margin-top: 80px; grid-template-columns: repeat(3, 1fr); }
+.step-n { font-size: 11.5px; font-weight: 600; letter-spacing: .08em; color: var(--ink-3); text-transform: uppercase; }
+.step h3 { margin: 12px 0 8px; }
+.step-frame {
+  margin-top: 22px; border-radius: 12px; border: 1px solid var(--hairline);
+  background: var(--surface); overflow: hidden; height: 168px; position: relative;
+}
+.step-frame-bar { height: 26px; border-bottom: 1px solid var(--hairline); display: flex; align-items: center; padding: 0 10px; font-size: 10px; color: var(--ink-3); gap: 5px; }
+.dot { width: 7px; height: 7px; border-radius: 50%; background: var(--panel-row); }
+.step-doc { padding: 14px; font-size: 12px; line-height: 1.5; color: var(--ink-2); }
+.step-doc b { color: var(--ink); font-weight: 400; }
+.step-keys { position: absolute; inset: 26px 0 0 0; display: grid; place-items: center; }
+.step-mini { position: absolute; left: 14px; right: 14px; bottom: 12px; border-radius: 9px; border: 1px solid var(--hairline); background: var(--panel-bg); overflow: hidden; }
+.step-mini div { padding: 6px 9px; font-size: 10.5px; color: var(--ink-2); }
+.step-mini div.on { background: var(--accent); color: #fff; }
 
-.features { display: grid; gap: 22px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin-top: 20px; }
-.features p { margin: 0; font-size: .94rem; }
+/* ── Features ──────────────────────────────────────────────────────── */
+.features { display: grid; gap: 56px 40px; grid-template-columns: repeat(4, 1fr); margin-top: 80px; }
+.feature-icon { font-size: 19px; color: var(--accent); height: 28px; display: flex; align-items: center; }
+.feature h3 { margin: 10px 0 7px; }
 
-footer { margin: 72px 0 56px; padding-top: 28px; border-top: 1px solid var(--border);
-  text-align: center; font-size: .87rem; color: var(--muted); }
+/* ── Privacy (always dark) ─────────────────────────────────────────── */
+.privacy { background: #000; color: #f5f5f7; }
+.privacy .t-section, .privacy .t-title3 { color: #f5f5f7; }
+.privacy .t-lead, .privacy .t-small, .privacy .t-caption { color: #a1a1a6; }
+.privacy .eyebrow { color: #0a84ff; }
+.privacy-grid { display: grid; gap: 40px; grid-template-columns: repeat(3, 1fr); margin-top: 72px; }
+.privacy-note { margin-top: 56px; padding-top: 28px; border-top: 1px solid rgba(255,255,255,.14); }
+.eyebrow { font-size: 13px; font-weight: 600; letter-spacing: .01em; color: var(--accent); margin: 0 0 14px; }
+
+/* ── Shortcuts ─────────────────────────────────────────────────────── */
+.shortcuts { display: grid; gap: 40px; grid-template-columns: repeat(2, 1fr); margin-top: 72px; }
+.shortcut { display: flex; gap: 20px; align-items: flex-start; }
+.shortcut-keys { flex: none; }
+.shortcut h3 { margin: 0 0 5px; }
+
+/* ── Pricing ───────────────────────────────────────────────────────── */
+.price-card {
+  max-width: 560px; margin: 64px auto 0; background: var(--surface);
+  border: 1px solid var(--hairline); border-radius: 22px; padding: 48px 44px;
+  text-align: center;
+}
+.price-amount { display: flex; align-items: baseline; justify-content: center; gap: 9px; }
+.price-amount .num { font-size: 68px; line-height: 1; letter-spacing: -.035em; font-weight: 600; }
+.included { list-style: none; padding: 0; margin: 34px 0; text-align: left; display: grid; gap: 13px; }
+.included li { display: flex; gap: 11px; align-items: flex-start; font-size: 15px; line-height: 1.5; letter-spacing: -.006em; color: var(--ink-2); }
+.included li::before { content: "✓"; color: var(--accent); font-weight: 600; flex: none; }
+.price-card .btn { width: 100%; }
+
+/* ── Install ───────────────────────────────────────────────────────── */
+.install { display: grid; gap: 40px; grid-template-columns: repeat(3, 1fr); margin-top: 64px; }
+.install-n { font-size: 44px; line-height: 1; letter-spacing: -.03em; font-weight: 600; color: var(--hairline); }
+.install h3 { margin: 14px 0 7px; }
+
+/* ── FAQ ───────────────────────────────────────────────────────────── */
+.faq { max-width: 760px; margin: 64px auto 0; }
+.faq details { border-bottom: 1px solid var(--hairline); }
+.faq summary {
+  display: flex; align-items: center; justify-content: space-between; gap: 20px;
+  padding: 24px 0; cursor: pointer; list-style: none;
+  font-size: 19px; line-height: 1.4; letter-spacing: -.014em; font-weight: 500;
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; flex: none; font-size: 26px; font-weight: 300; color: var(--ink-3); transition: transform .25s ease; }
+.faq details[open] summary::after { transform: rotate(45deg); }
+.faq details p { margin: 0 0 26px; padding-right: 46px; }
+
+/* ── Screenshot placeholders ───────────────────────────────────────── */
+.shot { margin: 0; }
+.shot img { display: block; margin: 0 auto; filter: var(--shot-shadow); border-radius: 12px; }
+.shot figcaption { margin-top: 18px; }
+.placeholder {
+  border: 1px dashed var(--hairline); border-radius: 14px; background: var(--surface-alt);
+  display: grid; place-items: center; text-align: center; padding: 40px; gap: 6px;
+  aspect-ratio: 980 / 420; color: var(--ink-3);
+}
+
+/* ── Footer ────────────────────────────────────────────────────────── */
+footer { background: var(--surface-alt); padding: 64px 0 56px; border-top: 1px solid var(--hairline); }
+.foot-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px; }
+.foot-grid h2 { font-size: 13px; font-weight: 600; letter-spacing: -.005em; margin: 0 0 14px; color: var(--ink); }
+.foot-grid ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+.foot-grid a { font-size: 13px; color: var(--ink-2); text-decoration: none; }
+.foot-grid a:hover { color: var(--accent); text-decoration: underline; }
+.foot-brand { display: flex; align-items: center; gap: 9px; font-size: 15px; font-weight: 600; letter-spacing: -.015em; margin-bottom: 12px; }
+.foot-bottom { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--hairline); display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+
+/* ── Reveal motion ─────────────────────────────────────────────────── */
+.js [data-reveal] { opacity: 0; transform: translateY(20px); }
+.js .revealed[data-reveal] { opacity: 1; transform: none; transition: opacity .7s cubic-bezier(.22,.61,.36,1), transform .7s cubic-bezier(.22,.61,.36,1); }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .js [data-reveal] { opacity: 1; transform: none; }
+  .js .revealed[data-reveal] { transition: none; }
+}
+
+/* ── Responsive ────────────────────────────────────────────────────── */
+@media (max-width: 1040px) {
+  .features { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 860px) {
+  .wrap { max-width: calc(100% - 48px); }
+  section, section.tight { padding: 72px 0; }
+  .t-hero    { font-size: 40px; letter-spacing: -.028em; }
+  .t-section { font-size: 32px; letter-spacing: -.026em; }
+  .t-title1  { font-size: 28px; letter-spacing: -.022em; }
+  .t-title2  { font-size: 24px; }
+  .t-lead    { font-size: 17px; }
+  .t-body    { font-size: 17px; }
+  .hero { padding: 56px 0 0; }
+  .hero-icon { width: 72px; height: 72px; border-radius: 17px; margin-bottom: 26px; }
+  .hero-shot { margin-top: 56px; padding: 0 24px 72px; }
+  .panel { width: 100%; max-width: 420px; }
+  .nav-links { display: none; }
+  .steps, .features, .privacy-grid, .shortcuts, .install, .foot-grid, .shot-pair { grid-template-columns: 1fr !important; }
+  .steps { gap: 48px; margin-top: 48px; }
+  .features { gap: 36px; margin-top: 48px; }
+  .privacy-grid, .shortcuts { gap: 32px; margin-top: 44px; }
+  .cta-row { flex-direction: column; gap: 18px; }
+  .cta-row .btn-primary { width: 100%; }
+  .price-card { padding: 36px 24px; border-radius: 18px; }
+  .price-amount .num { font-size: 52px; }
+  .faq summary { font-size: 17px; }
+  .faq details p { padding-right: 0; }
+}
 </style>
 </head>
 <body>
-<div class="wrap">
 
-<header>
-  <img class="mark" src="icon.png" width="128" height="128" alt="" fetchpriority="high">
-  <h1>ClipStack</h1>
-  <p class="tagline">Clipboard history for macOS. Lives in the menu bar, captures every copy, and pastes it back where you were.</p>
-  <a class="cta" href="https://github.com/mickey187/clipstack/releases/latest">Download for macOS</a>
-  <p class="meta">Free and open source · Universal (Apple&nbsp;Silicon + Intel) · macOS&nbsp;14 or later</p>
+<a class="skip" href="#main" style="position:absolute;left:-9999px">Skip to content</a>
 
-  <figure>
-    <img src="screenshot.png" alt="The ClipStack popup showing recent clipboard items, with one pinned at the top." onerror="this.closest('figure').remove()">
-    <figcaption>Press <kbd>⌥⌘V</kbd> anywhere. Arrow keys and <kbd>⏎</kbd>, or just click.</figcaption>
-  </figure>
+<nav class="nav">
+  <div class="wrap">
+    <a class="nav-brand" href="#top">
+      <img src="icon.png" alt="" width="22" height="22" style="border-radius:5.5px;display:block">
+      <span>ClipStack</span>
+    </a>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">Support</a>
+    </div>
+    <a class="btn-nav" href="#pricing" data-checkout>Buy $12</a>
+  </div>
+</nav>
+
+<main id="main">
+
+<!-- ── Hero ─────────────────────────────────────────────────────────── -->
+<header class="hero center" id="top">
+  <div class="wrap">
+    <img class="hero-icon" src="icon.png" alt="" width="88" height="88" data-reveal>
+    <h1 class="t-hero" data-reveal>Everything you've copied.<br>One keystroke away.</h1>
+    <p class="t-lead" data-reveal>Your clipboard holds one thing. ClipStack keeps the rest — every snippet, link and screenshot you copy — and puts any of it back into the app you're working in.</p>
+    <div class="cta-row" style="margin-top:38px" data-reveal>
+      <a class="btn btn-primary" href="#pricing">Download Free Trial</a>
+      <a class="btn btn-secondary" href="#pricing" data-checkout>Buy — $12 ›</a>
+    </div>
+    <p class="t-caption hero-meta" data-reveal>One-time purchase · macOS 14+ · Apple Silicon &amp; Intel</p>
+    <p class="t-caption hero-trial" data-reveal>14 days, every feature, no card needed.</p>
+  </div>
+
+  <div class="hero-shot" data-reveal>
+    <div class="panel" role="img" aria-label="The ClipStack panel showing six recent clipboard items: a pinned link from Safari, an address copied from Notes, a screenshot from Preview, a terminal command, and a line of text from Mail. Each row has a ⌘-number shortcut.">
+      <div class="panel-search">
+        <span>Type to filter…</span>
+        <span class="cap cap-sm">⌥⌘V</span>
+      </div>
+      <div class="panel-tabs">
+        <span class="panel-tab on">All 6</span>
+        <span class="panel-tab">Text 3</span>
+        <span class="panel-tab">Images 1</span>
+        <span class="panel-tab">Links 2</span>
+      </div>
+      <div class="panel-row">
+        <div class="panel-kind">URL</div>
+        <div class="panel-main">
+          <div class="panel-text">https://www.figma.com/design/clipstack-panel</div>
+          <div class="panel-meta"><span class="panel-pin">Pinned</span> · Safari · kept at top</div>
+        </div>
+        <span class="cap cap-sm">⌘1</span>
+      </div>
+      <div class="panel-row sel">
+        <div class="panel-kind">Aa</div>
+        <div class="panel-main">
+          <div class="panel-text">1200 Harrison Street, Suite 402, San Francisco CA 94103</div>
+          <div class="panel-meta">Notes · 2 minutes ago</div>
+        </div>
+        <span class="cap cap-sm">⌘2</span>
+      </div>
+      <div class="panel-row">
+        <div class="panel-kind">IMG</div>
+        <div class="panel-main">
+          <div class="panel-text">Screenshot 2026-09-16 at 14.02.png</div>
+          <div class="panel-meta">Preview · 8 minutes ago</div>
+        </div>
+        <span class="cap cap-sm">⌘3</span>
+      </div>
+      <div class="panel-row">
+        <div class="panel-kind">Aa</div>
+        <div class="panel-main">
+          <div class="panel-text">npm run build --workspace=@clipstack/panel</div>
+          <div class="panel-meta">Terminal · 12 minutes ago</div>
+        </div>
+        <span class="cap cap-sm">⌘4</span>
+      </div>
+      <div class="panel-row">
+        <div class="panel-kind">Aa</div>
+        <div class="panel-main">
+          <div class="panel-text">Thanks for the notes — revised draft over by Thursday.</div>
+          <div class="panel-meta">Mail · 21 minutes ago</div>
+        </div>
+        <span class="cap cap-sm">⌘5</span>
+      </div>
+      <div class="panel-foot">
+        <span>↑↓ move</span><span>⏎ paste</span><span>⌘1–9 direct</span>
+        <span class="spacer"></span><span>6 of 240 kept</span>
+      </div>
+    </div>
+  </div>
 </header>
 
-<h2>What it does</h2>
-<div class="features">
-  <div>
-    <h3>Captures everything</h3>
-    <p>Text and images land in your history automatically. Nothing to press, nothing to configure.</p>
-  </div>
-  <div>
-    <h3>Pastes for you</h3>
-    <p>Pick an item and it goes straight into the app you were just in — not merely onto the clipboard.</p>
-  </div>
-  <div>
-    <h3>Pin what matters</h3>
-    <p>Pinned items sit at the top and are never pushed out, however much you copy.</p>
-  </div>
-  <div>
-    <h3>Finds it as you type</h3>
-    <p>Start typing to narrow the list, or flip between All, Text, Images and Links. No search box to click into first.</p>
-  </div>
-  <div>
-    <h3>Starts with your Mac</h3>
-    <p>Turn on <strong>Start at Login</strong> once and it is there after every reboot, waiting on ⌥⌘V.</p>
-  </div>
-  <div>
-    <h3>Stays out of the way</h3>
-    <p>No Dock icon, no windows, about 17&nbsp;MB of memory and no measurable CPU when idle.</p>
-  </div>
-  <div>
-    <h3>Skips your passwords</h3>
-    <p>Copies marked confidential by password managers are ignored on purpose, never stored.</p>
-  </div>
-  <div>
-    <h3>Remembers across restarts</h3>
-    <p>History is a plain JSON file on your own disk. It survives reboots and never leaves the machine.</p>
-  </div>
-</div>
+<!-- ── The one thing it does ────────────────────────────────────────── -->
+<section class="alt" id="how">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>The one thing it does</p>
+    <h2 class="t-section" data-reveal>Press ⌥⌘V. Pick.<br>It's already back in your app.</h2>
+    <p class="t-body" style="max-width:640px;margin-top:22px" data-reveal>No window to find, no app to switch to. The panel opens where your pointer already is, and pastes straight into whatever you were typing in.</p>
 
-<h2>Installing it</h2>
-<ol class="steps">
-  <li>
-    <h3>Download and drag to Applications</h3>
-    <p>Open the DMG and drag ClipStack across, the usual way.</p>
-  </li>
-  <li>
-    <h3>Open it for the first time</h3>
-    <p>macOS shows a security prompt. Click <strong>Done</strong>, then open <strong>System&nbsp;Settings → Privacy&nbsp;&amp;&nbsp;Security</strong>, scroll to the bottom, and click <strong>Open&nbsp;Anyway</strong>.</p>
-  </li>
-  <li>
-    <h3>Allow Accessibility</h3>
-    <p>ClipStack asks once. It needs this only to press ⌘V on your behalf. Everything else — capturing copies, the popup, pinning — works without it.</p>
-  </li>
-</ol>
+    <div class="steps">
+      <div class="step" data-reveal>
+        <div class="step-n">Step 01</div>
+        <h3 class="t-title3">You need something you copied earlier</h3>
+        <p class="t-small">You're halfway through a reply and the address is two minutes gone. Press ⌥⌘V without leaving the field.</p>
+        <div class="step-frame">
+          <div class="step-frame-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span>&nbsp;Mail — Reply</div>
+          <div class="step-doc">Hi Dana — the studio is at<br><b>▋</b></div>
+          <div class="step-keys">
+            <span class="cap-group">
+              <span class="cap cap-md">⌥</span><span class="cap cap-md">⌘</span><span class="cap cap-md">V</span>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="step" data-reveal>
+        <div class="step-n">Step 02</div>
+        <h3 class="t-title3">The panel opens at your pointer</h3>
+        <p class="t-small">Everything you've copied, newest first, pinned items on top. Arrow keys, or start typing to filter.</p>
+        <div class="step-frame">
+          <div class="step-frame-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span>&nbsp;Mail — Reply</div>
+          <div class="step-doc">Hi Dana — the studio is at<br><b>▋</b></div>
+          <div class="step-mini">
+            <div>https://www.figma.com/design/…</div>
+            <div class="on">1200 Harrison Street, Suite 402…</div>
+            <div>Screenshot 2026-09-16 at 14.02.png</div>
+          </div>
+        </div>
+      </div>
+      <div class="step" data-reveal>
+        <div class="step-n">Step 03</div>
+        <h3 class="t-title3">Press return. It's in your app</h3>
+        <p class="t-small">The panel disappears and the text is in the field you were typing in. The app you were using never lost focus.</p>
+        <div class="step-frame">
+          <div class="step-frame-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span>&nbsp;Mail — Reply</div>
+          <div class="step-doc">Hi Dana — the studio is at<br><b>1200 Harrison Street, Suite 402, San Francisco CA 94103</b></div>
+        </div>
+      </div>
+    </div>
 
-<div class="note">
-  <p><strong>One-time step.</strong> macOS shows this prompt the first time you open an app installed from outside the App&nbsp;Store. Once you've opened ClipStack, it launches normally from then on.</p>
-  <p>Prefer one command to clicking through settings? This does the same thing:</p>
-  <pre><code>xattr -dr com.apple.quarantine /Applications/ClipStack.app</code></pre>
-</div>
+    <figure class="shot" style="margin-top:90px" data-reveal>
+      <!-- TODO: replace with the real capture — 1960 × 840 @2x -->
+      <div class="placeholder">
+        <strong class="t-small" style="color:var(--ink-2)">Screenshot placeholder</strong>
+        <span class="t-caption">The panel floating over a real app — 1960 × 840 @2x</span>
+      </div>
+    </figure>
+  </div>
+</section>
 
-<h2>Using it</h2>
-<div class="table-scroll">
-<table>
-  <thead><tr><th>Key</th><th>Does</th></tr></thead>
-  <tbody>
-    <tr><td><kbd>⌥⌘V</kbd></td><td>Open the popup at the pointer</td></tr>
-    <tr><td><kbd>↑</kbd> <kbd>↓</kbd></td><td>Move the selection</td></tr>
-    <tr><td><kbd>⏎</kbd></td><td>Paste the selected item</td></tr>
-    <tr><td><kbd>⌘1</kbd>–<kbd>⌘9</kbd></td><td>Paste the nth item directly</td></tr>
-    <tr><td><kbd>⌫</kbd></td><td>Delete the selected item</td></tr>
-    <tr><td><kbd>⎋</kbd></td><td>Dismiss</td></tr>
-  </tbody>
-</table>
-</div>
-<p>Hover any row and click <strong>⋯</strong> to pin or delete it. Right-click the menu bar icon for Clear History and Quit.</p>
+<!-- ── Features ─────────────────────────────────────────────────────── -->
+<section id="features">
+  <div class="wrap">
+    <h2 class="t-title1" data-reveal>Small app. Fewer interruptions.</h2>
+    <div class="features">
+      <div class="feature" data-reveal><div class="feature-icon">⌥⌘V</div><h3 class="t-title3">Nothing to press first</h3><p class="t-small">Every copy is captured automatically, text and images alike. You only ever press the shortcut when you need something back.</p></div>
+      <div class="feature" data-reveal><div class="feature-icon">↩</div><h3 class="t-title3">Pastes into your app</h3><p class="t-small">Not merely onto the clipboard. Pick an item and it lands in the document you were already typing in.</p></div>
+      <div class="feature" data-reveal><div class="feature-icon">◆</div><h3 class="t-title3">Pin what matters</h3><p class="t-small">Pinned items sit at the top and are never pushed out by newer copies, however much you paste.</p></div>
+      <div class="feature" data-reveal><div class="feature-icon">⌕</div><h3 class="t-title3">Type to filter</h3><p class="t-small">Start typing and the list narrows as you go. Tabs for All, Text, Images and Links when you'd rather browse.</p></div>
+      <div class="feature" data-reveal><div class="feature-icon">⌘1</div><h3 class="t-title3">⌘1 – ⌘9</h3><p class="t-small">The first nine items have a number. Press it and that item pastes immediately, no arrow keys needed.</p></div>
+      <div class="feature" data-reveal><div class="feature-icon">◌</div><h3 class="t-title3">Starts at login</h3><p class="t-small">Turn it on once and ClipStack is in the menu bar from the moment you log in. No Dock icon, no windows.</p></div>
+      <div class="feature" data-reveal><div class="feature-icon">⚿</div><h3 class="t-title3">Skips your passwords</h3><p class="t-small">Anything a password manager marks confidential is ignored outright — it never enters the history at all.</p></div>
+      <div class="feature" data-reveal><div class="feature-icon">≈</div><h3 class="t-title3">About 17 MB</h3><p class="t-small">No measurable CPU while idle. A universal binary, native on Apple Silicon and Intel.</p></div>
+    </div>
 
-<h2>Privacy</h2>
-<p>Your clipboard history is a JSON file in <code>~/Library/Application&nbsp;Support/ClipStack/</code>, on your disk and nowhere else. There is no account, no sync, no analytics, and no telemetry.</p>
-<p>The one network request ClipStack ever makes is a version check against the GitHub releases API, at most once a day, to tell you when a new version exists. It sends nothing about you and never downloads anything on its own. Copies that password managers mark as confidential are dropped before they reach the history.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:34px;margin-top:90px" class="shot-pair">
+      <figure class="shot">
+        <!-- TODO: replace with the real capture — 1256 × 600 @2x -->
+        <div class="placeholder" style="aspect-ratio:1256/600">
+          <strong class="t-small" style="color:var(--ink-2)">Screenshot placeholder</strong>
+          <span class="t-caption">Type-to-filter state — 1256 × 600 @2x</span>
+        </div>
+      </figure>
+      <figure class="shot">
+        <!-- TODO: replace with the real capture — 1256 × 600 @2x -->
+        <div class="placeholder" style="aspect-ratio:1256/600">
+          <strong class="t-small" style="color:var(--ink-2)">Screenshot placeholder</strong>
+          <span class="t-caption">Menu bar icon in context — 1256 × 600 @2x</span>
+        </div>
+      </figure>
+    </div>
+  </div>
+</section>
 
-<h2>Building it yourself</h2>
-<p>It's a Swift package — no Xcode project, and Command Line Tools are enough.</p>
-<pre><code>git clone https://github.com/mickey187/clipstack.git
-cd clipstack
-./Scripts/create-signing-cert.sh   # once
-./Scripts/build-app.sh</code></pre>
+<!-- ── Privacy ──────────────────────────────────────────────────────── -->
+<section class="privacy" id="privacy">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>Privacy</p>
+    <h2 class="t-section" data-reveal>A clipboard manager sees everything.<br>This one tells no one.</h2>
+    <p class="t-lead" style="max-width:700px;margin-top:24px" data-reveal>Your history is a plain file on your own disk. There is no account to make and no server to sync it to.</p>
+
+    <div class="privacy-grid">
+      <div data-reveal>
+        <h3 class="t-title3">It stays on your Mac</h3>
+        <p class="t-small" style="margin-top:9px">History lives in a local JSON file in your own Library folder. It is never uploaded, synced or backed up to us — there is no server to send it to.</p>
+      </div>
+      <div data-reveal>
+        <h3 class="t-title3">No account, no telemetry</h3>
+        <p class="t-small" style="margin-top:9px">You never make an account or sign in. ClipStack has no analytics, no tracking and no crash reporting, and nothing you copy is ever transmitted anywhere.</p>
+      </div>
+      <div data-reveal>
+        <h3 class="t-title3">Passwords are dropped</h3>
+        <p class="t-small" style="margin-top:9px">When a password manager marks a copy confidential, macOS passes that flag along. ClipStack honours it and refuses the item outright.</p>
+      </div>
+    </div>
+
+    <div class="privacy-note" data-reveal>
+      <p class="t-small" style="max-width:760px">ClipStack makes two kinds of network request, and neither one carries your clipboard. It checks once a day whether a newer version exists, and it verifies your licence key when you activate and about once a month after that. The licence check goes to Lemon Squeezy, who handle payment; the update check goes to us. Everything else — capturing, searching, pasting — happens entirely offline.</p>
+      <p class="t-small" style="max-width:760px;margin-top:16px">The app requests one macOS permission, Accessibility, which is what lets it paste into the app you were using. That is the whole list.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── Shortcuts ────────────────────────────────────────────────────── -->
+<section class="alt tight" id="shortcuts">
+  <div class="wrap">
+    <h2 class="t-title1" data-reveal>Hands stay on the keys.</h2>
+    <div class="shortcuts">
+      <div class="shortcut" data-reveal><span class="shortcut-keys cap-group"><span class="cap cap-lg">⌥</span><span class="cap cap-lg">⌘</span><span class="cap cap-lg">V</span></span><div><h3 class="t-title3">Open the panel</h3><p class="t-small">Anywhere, in any app, at your pointer.</p></div></div>
+      <div class="shortcut" data-reveal><span class="shortcut-keys cap-group"><span class="cap cap-lg">↑</span><span class="cap cap-lg">↓</span></span><div><h3 class="t-title3">Move through history</h3><p class="t-small">Newest at the top, pinned items above that.</p></div></div>
+      <div class="shortcut" data-reveal><span class="shortcut-keys cap-group"><span class="cap cap-lg">⏎</span></span><div><h3 class="t-title3">Paste the selection</h3><p class="t-small">Straight back into the app you came from.</p></div></div>
+      <div class="shortcut" data-reveal><span class="shortcut-keys cap-group"><span class="cap cap-lg">⌘</span><span class="cap cap-lg">1–9</span></span><div><h3 class="t-title3">Paste the nth item</h3><p class="t-small">Skip the arrows when you can see what you want.</p></div></div>
+      <div class="shortcut" data-reveal><span class="shortcut-keys cap-group"><span class="cap cap-lg">⌫</span></span><div><h3 class="t-title3">Delete an item</h3><p class="t-small">Removes it from the history immediately.</p></div></div>
+      <div class="shortcut" data-reveal><span class="shortcut-keys cap-group"><span class="cap cap-lg">⎋</span></span><div><h3 class="t-title3">Dismiss</h3><p class="t-small">The panel disappears and focus returns untouched.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Pricing ──────────────────────────────────────────────────────── -->
+<section id="pricing" class="center">
+  <div class="wrap">
+    <h2 class="t-section" data-reveal>One app. One price. Yours.</h2>
+    <p class="t-lead" style="max-width:560px;margin:22px auto 0" data-reveal>A one-time purchase, not a subscription. Buy it once and it keeps working.</p>
+
+    <div class="price-card" data-reveal>
+      <div class="price-amount"><span class="num">$12</span><span class="t-body" style="color:var(--ink-3)">one-time</span></div>
+      <p class="t-caption" style="margin-top:10px">USD, tax calculated at checkout. No renewal, ever.</p>
+      <ul class="included">
+        <li>The full app, with unlimited clipboard history</li>
+        <li>Free updates, for as long as you use it</li>
+        <li>A license for every Mac you personally own</li>
+        <li>14-day free trial before you pay anything</li>
+        <li>30-day money-back guarantee</li>
+      </ul>
+      <a class="btn btn-primary" href="#" data-checkout>Buy — $12 one-time</a>
+      <p style="margin-top:20px"><a class="btn-secondary t-small" style="color:var(--accent)" href="#download">Or download the 14-day trial ›</a></p>
+      <p class="t-caption" style="margin-top:22px">30-day money-back guarantee · Free updates · Secure checkout by Lemon&nbsp;Squeezy</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── Install ──────────────────────────────────────────────────────── -->
+<section class="alt tight center" id="download">
+  <div class="wrap">
+    <h2 class="t-title2" data-reveal>Installing takes about twenty seconds.</h2>
+    <div class="install">
+      <div data-reveal><div class="install-n">01</div><h3 class="t-title3">Download</h3><p class="t-small">A single 2.1 MB file, notarized by Apple.</p></div>
+      <div data-reveal><div class="install-n">02</div><h3 class="t-title3">Drag to Applications</h3><p class="t-small">The usual place. No installer, no admin password.</p></div>
+      <div data-reveal><div class="install-n">03</div><h3 class="t-title3">Open it</h3><p class="t-small">ClipStack appears in the menu bar and starts capturing.</p></div>
+    </div>
+    <div class="cta-row" style="margin-top:56px" data-reveal>
+      <a class="btn btn-primary" href="#" data-download>Download Free Trial</a>
+    </div>
+    <p class="t-caption" style="margin-top:16px" data-reveal>Version 1.0.0 · Universal · macOS 14 or later</p>
+  </div>
+</section>
+
+<!-- ── FAQ ──────────────────────────────────────────────────────────── -->
+<section id="faq">
+  <div class="wrap">
+    <h2 class="t-title1 center" data-reveal>Questions</h2>
+    <div class="faq" data-reveal>
+      <details><summary>Is this a subscription?</summary><p class="t-small">No. ClipStack is a one-time purchase of $12. There is no renewal, no yearly fee and no upgrade pricing — you buy it once and it keeps working.</p></details>
+      <details><summary>What happens after the 14-day trial?</summary><p class="t-small">The trial is the full app with every feature, and it needs no card. When it ends, ClipStack stops capturing new items until you enter a license key. Your existing history stays where it is.</p></details>
+      <details><summary>Which Macs does it work on?</summary><p class="t-small">Any Mac running macOS 14 Sonoma or later. ClipStack ships as a universal binary, so it runs natively on both Apple Silicon and Intel machines.</p></details>
+      <details><summary>Does my clipboard data go anywhere?</summary><p class="t-small">No. Your history is a local file on your disk, and nothing you copy is ever transmitted. ClipStack has no account system, no sync and no telemetry. It makes two kinds of network request — a once-a-day check for a new version, and a licence check when you activate and roughly monthly after that — and neither carries your clipboard.</p></details>
+      <details><summary>How do I get updates?</summary><p class="t-small">Updates are free for as long as you use the app, and ClipStack checks for them itself once a day. Your license covers every future version.</p></details>
+      <details><summary>Can I get a refund?</summary><p class="t-small">Yes. Write to <a href="mailto:support@tryclipstack.com">support@tryclipstack.com</a> within 30 days of buying and you get your money back, no questions and no forms.</p></details>
+    </div>
+    <p class="t-small center" style="margin-top:44px" data-reveal>Still deciding? Write to <a href="mailto:support@tryclipstack.com" style="color:var(--accent)">support@tryclipstack.com</a>.</p>
+  </div>
+</section>
+
+</main>
 
 <footer>
-  <p><a href="https://github.com/mickey187/clipstack">Source on GitHub</a> · MIT licensed</p>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-brand"><img src="icon.png" alt="" width="22" height="22" style="border-radius:5.5px"> ClipStack</div>
+        <p class="t-caption" style="max-width:320px">A menu bar clipboard history manager for macOS 14 and later. One-time purchase, $12.</p>
+      </div>
+      <div>
+        <h2>Support</h2>
+        <ul>
+          <li><a href="mailto:support@tryclipstack.com">support@tryclipstack.com</a></li>
+          <li><a href="success.html">Activate a license</a></li>
+          <li><a href="#faq">Questions</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Legal</h2>
+        <ul>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+          <li><a href="terms.html">Terms of Use</a></li>
+          <li><a href="refund.html">Refund Policy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <p class="t-caption">Copyright © 2026 ClipStack. All rights reserved.</p>
+      <p class="t-caption">Secure checkout by Lemon Squeezy</p>
+    </div>
+  </div>
 </footer>
 
-</div>
+<script>
+// Reveal on scroll — one pass per element, matching the design's motion spec.
+(function () {
+  var els = document.querySelectorAll('[data-reveal]');
+  if (!('IntersectionObserver' in window) ||
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    for (var i = 0; i < els.length; i++) els[i].classList.add('revealed');
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('revealed');
+      io.unobserve(e.target);
+    });
+  }, { rootMargin: '0px 0px -10% 0px', threshold: 0.05 });
+  els.forEach(function (el) { io.observe(el); });
+})();
+
+// TODO — checkout. Add before launch:
+//   <script src="https://app.lemonsqueezy.com/js/lemon.js" defer><\/script>
+// then point [data-checkout] at the product's buy URL and add
+// class="lemonsqueezy-button" so the hosted overlay opens in place.
+// [data-download] should point at the notarized DMG.
+</script>
+
 </body>
 </html>
